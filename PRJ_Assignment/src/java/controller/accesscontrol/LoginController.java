@@ -34,7 +34,7 @@ public class LoginController extends HttpServlet {
             resp.setContentType("text/html");
             resp.getWriter().println("<script type='text/javascript'>");
             resp.getWriter().println("alert('Tài khoản không đúng!');");
-            resp.getWriter().println("window.location.href = 'http://localhost:9999/ta.com/';");  // Redirect to homepage
+            resp.getWriter().println("window.location.href = 'http://localhost:9999/ta.com/';");  // Redirect to base URL
             resp.getWriter().println("</script>");
 
         }
