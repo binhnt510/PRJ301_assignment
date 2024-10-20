@@ -29,7 +29,7 @@ public class LoginController extends HttpServlet {
         if (account != null) {
             req.getSession().setAttribute("account", account);
 
-            resp.getWriter().println("login successful!");
+            resp.sendRedirect("home");
         } else {
             resp.setContentType("text/html");
             resp.getWriter().println("<script type='text/javascript'>");
