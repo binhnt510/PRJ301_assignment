@@ -8,10 +8,9 @@ package entity;
  *
  * @author sonnt-local
  */
-public class Department {
+public class Product {
     private int id;
     private String name;
-    private String type;
 
     public int getId() {
         return id;
@@ -27,14 +26,6 @@ public class Department {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
     
 }

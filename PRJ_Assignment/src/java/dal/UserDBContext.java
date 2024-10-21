@@ -19,13 +19,13 @@ import java.util.logging.Logger;
 public class UserDBContext extends DBContext<User> {
 
     public ArrayList<Role> getRoles(String username) {
-        String sql = "SELECT r.rid,r.rname,f.fid,f.fname,f.url FROM [User] u \n"
-                + "	INNER JOIN UserRole ur ON ur.username = u.username\n"
-                + "	INNER JOIN [Role] r ON r.rid = ur.rid\n"
-                + "	INNER JOIN RoleFeature rf ON r.rid = rf.rid\n"
-                + "	INNER JOIN Feature f ON f.fid = rf.fid\n"
-                + "WHERE u.username = ?\n"
-                + "ORDER BY r.rid, f.fid ASC";
+        String sql = "SELECT r.RoleID,r.RoleName,f.FeatureID,f.FeatureName,f.url FROM [User] u \n"
+                + "	INNER JOIN UserRole ur ON ur.UserName = u.UserName\n"
+                + "	INNER JOIN [Role] r ON r.RoleID = ur.RoleID\n"
+                + "	INNER JOIN RoleFeature rf ON r.RoleID = rf.RoleID\n"
+                + "	INNER JOIN Feature f ON f.FeatureID = rf.FeatureID\n"
+                + "WHERE u.UserName = ?\n"
+                + "ORDER BY r.RoleID, f.FeatureID ASC";
         
         PreparedStatement stm = null;
         ArrayList<Role> roles = new ArrayList<>();
@@ -37,18 +37,18 @@ public class UserDBContext extends DBContext<User> {
             c_role.setId(-1);
             while(rs.next())
             {
-                int rid = rs.getInt("rid");
+                int rid = rs.getInt("RoleID");
                 if(rid != c_role.getId())
                 {
                     c_role = new Role();
                     c_role.setId(rid);
-                    c_role.setName(rs.getString("rname"));
+                    c_role.setName(rs.getString("RoleName"));
                     roles.add(c_role);
                 }
                 
                 Feature f = new Feature();
-                f.setId(rs.getInt("fid"));
-                f.setName(rs.getString("fname"));
+                f.setId(rs.getInt("FeatureID"));
+                f.setName(rs.getString("FeatureName"));
                 f.setUrl(rs.getString("url"));
                 c_role.getFeatures().add(f);
                 f.setRoles(roles);
@@ -71,8 +71,8 @@ public class UserDBContext extends DBContext<User> {
 
     public User get(String username, String password) {
         //encoding username / password
-        String sql = "SELECT username, displayname FROM [User] \n"
-                + "WHERE username = ? AND [password] = ?";
+        String sql = "SELECT UserName, displayname FROM [User] \n"
+                + "WHERE UserName = ? AND [password] = ?";
         PreparedStatement stm = null;
         User user = null;
         try {
