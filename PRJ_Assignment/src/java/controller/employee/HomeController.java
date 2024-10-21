@@ -28,26 +28,41 @@ public class HomeController extends BaseRBACController{
 
         // Kiểm tra vai trò và gán quyền tương ứng
         switch (username) {
-            case "mra":
+            case "admin":
                 permissions = Arrays.asList(
-                    new Permission("Quyền 1", "/employee/create"),
-                    new Permission("Quyền 2", "/employee/update"),
-                    new Permission("Quyền 3", "/employee/delete"),
-                    new Permission("Quyền 4", "/employee/list"),
-                    new Permission("Quyền 5", "/employee/search")
+                    new Permission("List Plan", "/work/listplan"),
+                    new Permission("Create Plan&PlanCampain", " /work/createplan"),
+                    new Permission("Create Schedule Campain", "/work/schedulecampain"),
+                    new Permission("Check Process", "/work/checkprocess"),
+                    new Permission("Create Detail Product For Worker", "/work/detailforworker"),
+                    new Permission("Attendance", "/employee/attendance"),
+                    new Permission("Calculating Salary Worker", "/employee/salaryworker")
                 );
                 break;
-            case "mrb": case "mrd":
+            case "qd1": case "qd2": case "qd3":
                 permissions = Arrays.asList(
-                    new Permission("Quyền 1", "/employee/create"),
-                    new Permission("Quyền 2", "/employee/list")
+                    new Permission("Create Schedule Campain", "/work/schedulecampain"),
+                    new Permission("Create Detail Product For Worker", "/work/detailforworker"),
+                    new Permission("Check Process", "/work/checkprocess"),
+                    new Permission("List Schedule Campain", "/work/listplan")
                 );
                 break;
-            case "mrc":
+            case "ketoan":
                 permissions = Arrays.asList(
-                    new Permission("Quyền 1", "/employee/create")
+                    new Permission("Calculating Salary Worker", "/employee/salaryworker")
                 );
                 break;
+            case "mrplan":
+                permissions = Arrays.asList(
+                    new Permission("List Plan", "/work/listplan"),
+                    new Permission("Create Plan&PlanCampain", " /work/createplan"),
+                    new Permission("Check Process", "/work/checkprocess")
+                );
+            case "qlk1w1":case "qlk2w1":case "qlk3w1":case "qlk1w2":case "qlk2w2":case "qlk3w2":case "qlk1w3":case "qlk2w3":case "qlk3w3":
+                permissions = Arrays.asList(
+                    new Permission("Check Process", "/work/checkprocess"),
+                    new Permission("Attendance", "/employee/attendance")
+                );
             default:
                 break;
         }
