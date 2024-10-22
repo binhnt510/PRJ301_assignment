@@ -9,19 +9,42 @@ package entity.accesscontrol;
  * @author admin
  */
 public class Permission {
-    private String name;
+    private String username;
     private String url;
+    private String featurename;
 
-    public Permission(String name, String url) {
-        this.name = name;
+    public Permission(String username, String url, String featurename) {
+        this.username = username;
         this.url = url;
+        this.featurename = featurename;
     }
 
-    public String getName() {
-        return name;
+    public Permission() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getUrl() {
         return url;
     }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getFeaturename() {
+        return featurename;
+    }
+
+    public void setFeaturename(String featurename) {
+        this.featurename = featurename;
+    }
+            
+    
 }

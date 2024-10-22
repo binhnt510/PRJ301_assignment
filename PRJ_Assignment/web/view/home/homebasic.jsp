@@ -111,7 +111,7 @@
                 list-style: none;
             }
             
-            .feature-item a{
+            .features a{
                 text-decoration: none;
                 color: inherit;
             }
@@ -157,7 +157,7 @@
                     
                         <c:forEach items="${requestScope.permissions}" var="p">
                             <li>
-                                <div class="feature-item"><a href="http://localhost:9999/ta.com/${p.url}">${p.name}</a></div>
+                                <a href="http://localhost:9999/ta.com${p.url}"><div class="feature-item">${p.featurename}</div></a>
                             </li>
                         </c:forEach>
                     

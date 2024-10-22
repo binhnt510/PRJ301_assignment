@@ -5,6 +5,7 @@
 package dal;
 
 import entity.accesscontrol.Feature;
+import entity.accesscontrol.Permission;
 import entity.accesscontrol.Role;
 import entity.accesscontrol.User;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class UserDBContext extends DBContext<User> {
                 + "	INNER JOIN Feature f ON f.FeatureID = rf.FeatureID\n"
                 + "WHERE u.UserName = ?\n"
                 + "ORDER BY r.RoleID, f.FeatureID ASC";
-        
+
         PreparedStatement stm = null;
         ArrayList<Role> roles = new ArrayList<>();
         try {
@@ -35,17 +36,15 @@ public class UserDBContext extends DBContext<User> {
             ResultSet rs = stm.executeQuery();
             Role c_role = new Role();
             c_role.setId(-1);
-            while(rs.next())
-            {
+            while (rs.next()) {
                 int rid = rs.getInt("RoleID");
-                if(rid != c_role.getId())
-                {
+                if (rid != c_role.getId()) {
                     c_role = new Role();
                     c_role.setId(rid);
                     c_role.setName(rs.getString("RoleName"));
                     roles.add(c_role);
                 }
-                
+
                 Feature f = new Feature();
                 f.setId(rs.getInt("FeatureID"));
                 f.setName(rs.getString("FeatureName"));
@@ -55,9 +54,7 @@ public class UserDBContext extends DBContext<User> {
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        finally
-        {
+        } finally {
             try {
                 stm.close();
                 connection.close();
@@ -65,7 +62,7 @@ public class UserDBContext extends DBContext<User> {
                 Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         return roles;
     }
 
@@ -96,6 +93,42 @@ public class UserDBContext extends DBContext<User> {
             }
         }
         return user;
+    }
+
+    public ArrayList<Permission> geturl(String username) {
+        ArrayList<Permission> p = new ArrayList<>();
+        PreparedStatement stm = null;
+        String sql = "SELECT u.UserName,f.url,f.FeatureName FROM [User] u \n"
+                + "	INNER JOIN UserRole ur ON ur.UserName = u.UserName\n"
+                + "	INNER JOIN [Role] r ON r.RoleID = ur.RoleID\n"
+                + "	INNER JOIN RoleFeature rf ON r.RoleID = rf.RoleID\n"
+                + "	INNER JOIN Feature f ON f.FeatureID = rf.FeatureID\n"
+                + "WHERE u.UserName = ?\n"
+                +"and url not like'/home'\n"
+                + "ORDER BY r.RoleID, f.FeatureID ASC";
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, username);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                String username_str = rs.getString("UserName");
+                String url = rs.getString("url");
+                String featurename_str = rs.getString("FeatureName");
+                p.add(new Permission(username_str, url,featurename_str));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stm.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return p;
     }
 
     @Override
