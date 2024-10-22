@@ -27,35 +27,6 @@ import java.sql.*;
  * @author sonnt-local hand-some
  */
 public class ProductionPlanCreateController extends BaseRBACController {
-   
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        
-    } 
-
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        
-        
-        
-    }
 
     @Override
     protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException {
@@ -65,7 +36,7 @@ public class ProductionPlanCreateController extends BaseRBACController {
         req.setAttribute("products", dbProduct.list());
         req.setAttribute("depts", dbDepts.get("WS"));
         
-        req.getRequestDispatcher("../view/worker/createplan.jsp").forward(req, resp);
+        req.getRequestDispatcher("../view/work/createplan.jsp").forward(req, resp);
     }
 
     @Override
@@ -108,8 +79,16 @@ public class ProductionPlanCreateController extends BaseRBACController {
         {
             resp.getWriter().println("your plan does not have any products / campains");
         }
-    }
-
-    
+        
+    }    
+   
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /** 
+     * Handles the HTTP <code>GET</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
 
 }

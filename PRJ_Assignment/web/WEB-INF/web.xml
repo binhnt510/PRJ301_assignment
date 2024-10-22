@@ -13,7 +13,7 @@
         <servlet-class>controller.accesscontrol.LogoutController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>plan</servlet-name>
+        <servlet-name>createplan</servlet-name>
         <servlet-class>controller.employee.ProductionPlanCreateController</servlet-class>
     </servlet>
     <servlet-mapping>
@@ -29,7 +29,7 @@
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>plan</servlet-name>
+        <servlet-name>createplan</servlet-name>
         <url-pattern>/work/createplan</url-pattern>
     </servlet-mapping>
 </web-app>
