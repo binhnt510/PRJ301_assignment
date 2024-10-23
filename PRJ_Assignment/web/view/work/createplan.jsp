@@ -128,7 +128,7 @@
                 <tr>
                     <td>Product</td>
                     <td>Quantity</td>
-                    <td>Cost</td>
+                    <td>Estimate</td>
                 </tr>
                 <c:forEach items="${requestScope.products}" var="p">
                  <tr>

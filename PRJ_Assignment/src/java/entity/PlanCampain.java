@@ -13,7 +13,7 @@ public class PlanCampain {
     private Plan plan;
     private Product product;
     private int quantity;
-    private float cost;
+    private int cost;
 
     public int getId() {
         return id;
@@ -47,12 +47,14 @@ public class PlanCampain {
         this.quantity = quantity;
     }
 
-    public float getCost() {
+    public int getCost() {
         return cost;
     }
 
-    public void setCost(float cost) {
+    public void setCost(int cost) {
         this.cost = cost;
     }
+
+    
     
 }
