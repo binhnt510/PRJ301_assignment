@@ -16,7 +16,7 @@
     <c:if test="${not empty details}">
         <form action="attendance" method="post">
             <input type="hidden" name="action" value="save"/>
-            <h1>Attendance at <span> ${sessionScope.depname}</span><span id="dateDisplay">${searchDate}</span> Production shift: <span>${searchShift}</span> </h1>
+            <h1>Attendance at <span style="color: red"> ${requestScope.depname}</span> -- <span style="color: red" id="dateDisplay">${searchDate}</span> -- Production shift: <span style="color: red">${searchShift}</span> </h1>
             <table border="1">
                 <thead>
                     <tr>

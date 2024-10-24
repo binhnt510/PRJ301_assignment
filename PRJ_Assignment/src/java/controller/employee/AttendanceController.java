@@ -24,12 +24,12 @@ public class AttendanceController extends BaseRBACController {
     @Override
     protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException {
         DepartmentDBContext dbDepts = new DepartmentDBContext();
-        
+
         req.setAttribute("account", account);
         ArrayList<Department> depts = dbDepts.get("WS");
-        req.setAttribute("depts",depts );
-        
-        req.getRequestDispatcher("../view/employee/attendance_select.jsp").forward(req, resp);             
+        req.setAttribute("depts", depts);
+
+        req.getRequestDispatcher("../view/employee/attendance_select.jsp").forward(req, resp);
     }
 
     @Override
@@ -39,21 +39,22 @@ public class AttendanceController extends BaseRBACController {
         String check = req.getParameter("check");
         req.setAttribute("account", account);
         DepartmentDBContext dbDepts = new DepartmentDBContext();
-        req.setAttribute("depts", dbDepts.get("WS"));
+        ArrayList<Department> depts = dbDepts.get("WS");
+        req.setAttribute("depts", depts);
         if ("search".equals(action) && "Search for inserting the attendance of workers".equals(search)) {
             // Handle form 1 submission - search
             Date date = Date.valueOf(req.getParameter("date"));
             int departmentId = Integer.parseInt(req.getParameter("departmentId"));
-            
-            ArrayList<Department> d = dbDepts.list();
-            String depname="";
-            for (Department department : d) {
-                if(departmentId==department.getId()){
-                    depname=department.getName();
+
+            String depname = "";
+            for (Department department : depts) {
+                if (departmentId == department.getId()) {
+                    depname = department.getName();
+                    break;
                 }
             }
-            req.setAttribute("depname",depname );
-            
+            req.setAttribute("depname", depname);
+
             String shift = req.getParameter("shift");
 
             AttendanceDBContext db = new AttendanceDBContext();
@@ -64,9 +65,9 @@ public class AttendanceController extends BaseRBACController {
             req.setAttribute("searchDepartment", departmentId);
             req.setAttribute("searchShift", shift);
             req.getRequestDispatcher("../view/employee/attendacene_insert.jsp").forward(req, resp);
-        } else if ("save".equals(action) ) {
+        } else if ("save".equals(action)) {
             // Handle form 2 submission - save attendance
-            
+
             String[] actualQuantities = req.getParameterValues("actualQuantity");
             String[] alphas = req.getParameterValues("alpha");
             String[] notes = req.getParameterValues("note");
@@ -87,17 +88,17 @@ public class AttendanceController extends BaseRBACController {
                 }
             }
             req.getRequestDispatcher("../view/employee/attendance_select.jsp").forward(req, resp);
-        }else if ("search".equals(action)&&"Check the saved attendance of workers".equals(check)) {
+        } else if ("search".equals(action) && "Check the saved attendance of workers".equals(check)) {
             // Handle form 1 submission - search
             Date date = Date.valueOf(req.getParameter("date"));
             int departmentId = Integer.parseInt(req.getParameter("departmentId"));
             String shift = req.getParameter("shift");
-            DepartmentDBContext dp = new DepartmentDBContext();
-            ArrayList<Department> d = dp.list();
-            String depname="";
-            for (Department department : d) {
-                if(departmentId==department.getId()){
-                    depname=department.getName();
+
+            String depname = "";
+            for (Department department : depts) {
+                if (departmentId == department.getId()) {
+                    depname = department.getName();
+                    break;
                 }
             }
             req.setAttribute("depname", depname);
@@ -110,8 +111,6 @@ public class AttendanceController extends BaseRBACController {
             req.setAttribute("searchShift", shift);
             req.getRequestDispatcher("../view/employee/attendance_select.jsp").forward(req, resp);
         }
-        
 
-        
     }
 }
