@@ -34,6 +34,7 @@ public class ProductionPlanCreateController extends BaseRBACController {
         DepartmentDBContext dbDepts = new DepartmentDBContext();
         
         req.setAttribute("products", dbProduct.list());
+        req.getSession().setAttribute("products", dbProduct.list());
         req.setAttribute("depts", dbDepts.get("WS"));
         
         req.getRequestDispatcher("../view/work/createplan.jsp").forward(req, resp);

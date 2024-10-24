@@ -117,8 +117,8 @@
         </div>
         <div style="margin-top: 20px">
              <form action="createplan" method="POST">
-            Plan title: <input type="text" name="name"/> <br/>
-            From : <input type="date" name="from"/> To: <input type="date" name="to"/> <br/>
+                 Plan title: <input type="text" name="name" required="" /> <br/>
+            From : <input type="date" name="from" required /> To: <input type="date" name="to" required/> <br/>
             Workshop: <select name="did">
                 <c:forEach items="${requestScope.depts}" var="d">
                     <option value="${d.id}">${d.name}</option>
