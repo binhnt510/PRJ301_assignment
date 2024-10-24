@@ -1,3 +1,10 @@
+<%-- 
+    Document   : login
+    Created on : Oct 23, 2024, 11:44:10 PM
+    Author     : admin
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -9,7 +16,7 @@
   <title>Document</title>
 </head>
 <body >
-   
+  <!-- Login 7 - Bootstrap Brain Component -->
 <section class="bg-light p-3 p-md-4 p-xl-5" style="height: 100vh; background-image: url(img/5559852.jpg);">
   <div class="container">
     <div class="row justify-content-center">
@@ -21,14 +28,14 @@
                 <div class="mb-5">
                   <div class="text-center mb-4">
                     <a href="#!">
-                        <img src="img/logo123.jpg" alt="BootstrapBrain Logo" width="175" height="90">
+                        <img src="http://localhost:9999/ta.com/img/logo123.jpg" alt="BootstrapBrain Logo" width="175" height="90">
                     </a>
                   </div>
                   <h4 class="text-center">Sign in to your account</h4>
                 </div>
               </div>
             </div>
-              <form action="login" method="post">
+              <form action="login" method="post" id="loginForm">
               <div class="row gy-3 overflow-hidden">
                 <div class="col-12">
                   <div class="form-floating mb-3">
@@ -71,5 +78,32 @@
     </div>
   </div>
 </section>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Ngăn chặn form submit truyền thống
+
+      var username = document.getElementById('username').value;
+      var password = document.getElementById('password').value;
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "login", true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+      xhr.onreadystatechange = function() {
+          console.log(xhr.responseText)
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          if (xhr.responseText == 'success') {
+            
+            window.location.href = 'http://localhost:9999/ta.com/home'; // Chuyển hướng nếu đăng nhập thành công
+          } else {
+            alert('Tài khoản hoặc mật khẩu không đúng!');
+          }
+        }
+      };
+
+      xhr.send("username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password));
+    });
+  </script>
+
 </body>
 </html>
