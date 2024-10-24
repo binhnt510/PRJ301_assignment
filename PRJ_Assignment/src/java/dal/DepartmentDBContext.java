@@ -39,28 +39,27 @@ public class DepartmentDBContext extends DBContext<Department> {
         ArrayList<Department> depts = new ArrayList<>();
         PreparedStatement command = null;
         try {
-            String sql = "SELECT did, dname FROM Department";
+            String sql = "SELECT DepartmentID, DepartmentName FROM Department";
 
             command = connection.prepareStatement(sql);
             ResultSet rs = command.executeQuery();
             while (rs.next()) {
                 Department d = new Department();
-                d.setId(rs.getInt("did"));
-                d.setName(rs.getString("dname"));
+                d.setId(rs.getInt("DepartmentID"));
+                d.setName(rs.getString("DepartmentName"));
                 depts.add(d);
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(dal.DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
-       }
-//    finally {
-//            try {
-//                command.close();
-//                connection.close();
-//            } catch (SQLException ex) {
-//                Logger.getLogger(dal.DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
+            Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                command.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         return depts;
     }
 
@@ -85,13 +84,13 @@ public class DepartmentDBContext extends DBContext<Department> {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(dal.DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 command.close();
                 connection.close();
             } catch (SQLException ex) {
-                Logger.getLogger(dal.DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DepartmentDBContext.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return depts;

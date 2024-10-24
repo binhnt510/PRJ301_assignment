@@ -23,7 +23,7 @@ public class RedirectToLogin extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //resp.sendRedirect("http://localhost:9999/tda.com/login");
+        resp.sendRedirect("http://localhost:9999/ta.com/login");
     }
     
 }
