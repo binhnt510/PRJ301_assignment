@@ -5,24 +5,21 @@
 
 package controller.employee;
 
-import dal.DepartmentDBContext;
-import entity.Department;
+import dal.SalaryQuery;
+import entity.EmployeeSalary;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name="NewServlet", urlPatterns={"/NewServlet"})
-public class NewServlet extends HttpServlet {
+public class SalaryWorkerController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,30 +28,7 @@ public class NewServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        DepartmentDBContext dbDepts = new DepartmentDBContext();
-        
-        
-        
-int departmentId = 2;
-
-List<Department> departments = dbDepts.list();
-String depname = "";
-for (Department department : departments) {
-    if (departmentId == department.getId()) {
-        depname = department.getName();
-        break; // Dừng vòng lặp
-    }
-}
-
-if (depname.isEmpty()) {
-    depname = "Không tìm thấy phòng ban"; // Thông điệp mặc định
-}
-
-request.setAttribute("depts", dbDepts.get("WS"));
-request.getRequestDispatcher("newjsp.jsp").forward(request, response);
-    } 
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
@@ -67,8 +41,11 @@ request.getRequestDispatcher("newjsp.jsp").forward(request, response);
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+       SalaryQuery salaryQuery = new SalaryQuery();
+        ArrayList<EmployeeSalary> salaries = salaryQuery.getSalaries();
         
+        request.setAttribute("salaries", salaries);
+        request.getRequestDispatcher("/view/employee/salaryinsert.jsp").forward(request, response);
     } 
 
     /** 
