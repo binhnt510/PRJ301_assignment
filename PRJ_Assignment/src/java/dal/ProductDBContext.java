@@ -3,9 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dal;
-
-import dal.DBContext;
-import entity.Department;
 import entity.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,12 +35,12 @@ public class ProductDBContext extends DBContext<Product> {
     @Override
     public ArrayList<Product> list() {
         ArrayList<Product> products = new ArrayList<>();
-        PreparedStatement command = null;
-        try {
+            PreparedStatement command = null;
+            
             String sql = "SELECT [ProductID]\n"
                     + "      ,[ProductName]\n"
                     + "  FROM [Product]";
-
+        try {
             command = connection.prepareStatement(sql);
             ResultSet rs = command.executeQuery();
             while (rs.next()) {
@@ -52,18 +49,19 @@ public class ProductDBContext extends DBContext<Product> {
                 p.setName(rs.getString("ProductName"));
                 products.add(p);
             }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ProductDBContext.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                command.close();
-                connection.close();
             } catch (SQLException ex) {
-                Logger.getLogger(ProductDBContext.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Logger.getLogger(ProductDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return products;
+            finally {
+                    try {
+                    command.close();
+                    connection.close();
+                    } catch (SQLException ex) {
+                    Logger.getLogger(ProductDBContext.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    }
+            return products;
+        
     }
 
     @Override
@@ -72,3 +70,4 @@ public class ProductDBContext extends DBContext<Product> {
     }
 
 }
+

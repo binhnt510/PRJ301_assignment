@@ -55,8 +55,8 @@ public class PlanCampainDBContext extends DBContext<PlanCampain> {
             while (rs.next()) {
                 // Lấy các giá trị từ ResultSet
                 PlanCampain plancampains = new PlanCampain();
-                plancampains.setQuantity(rs.getInt("pc.Quantity"));
-                plancampains.setCost(rs.getInt("pc.Estimate"));
+                plancampains.setQuantity(rs.getInt("Quantity"));
+                plancampains.setCost(rs.getInt("Estimate"));
                 Plan plans =new Plan();
                 Department dp =new Department();
                 Product pr =new Product();

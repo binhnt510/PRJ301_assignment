@@ -78,7 +78,7 @@ public class AttendanceDBContext extends DBContext<AttendenceWorker> {
         stm.executeUpdate();
     } catch (SQLException ex) {
         Logger.getLogger(AttendanceDBContext.class.getName()).log(Level.SEVERE, 
-            "Error inserting attendance for SchEmpID: " + entity.getSchEmpId(), ex);
+            null, ex);
     } finally {
         try {
             if (stm != null) stm.close();

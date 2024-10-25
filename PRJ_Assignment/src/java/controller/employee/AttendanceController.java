@@ -41,6 +41,7 @@ public class AttendanceController extends BaseRBACController {
         DepartmentDBContext dbDepts = new DepartmentDBContext();
         ArrayList<Department> depts = dbDepts.get("WS");
         req.setAttribute("depts", depts);
+        AttendanceDBContext db = new AttendanceDBContext();
         if ("search".equals(action) && "Search for inserting the attendance of workers".equals(search)) {
             // Handle form 1 submission - search
             Date date = Date.valueOf(req.getParameter("date"));
@@ -57,7 +58,7 @@ public class AttendanceController extends BaseRBACController {
 
             String shift = req.getParameter("shift");
 
-            AttendanceDBContext db = new AttendanceDBContext();
+            
             ArrayList<AttendanceDetail> details = db.getAttendanceDetails(date, departmentId, shift);
 
             req.setAttribute("details", details);
@@ -73,7 +74,7 @@ public class AttendanceController extends BaseRBACController {
             String[] notes = req.getParameterValues("note");
             String[] schEmpIds = req.getParameterValues("schEmpId");
 
-            AttendanceDBContext db = new AttendanceDBContext();
+            
             int rowCount = Integer.parseInt(req.getParameter("rowCount"));
             for (int i = 0; i < rowCount; i++) {
                 if (actualQuantities[i] != null && !actualQuantities[i].isEmpty()) {
@@ -102,7 +103,7 @@ public class AttendanceController extends BaseRBACController {
                 }
             }
             req.setAttribute("depname", depname);
-            AttendanceDBContext db = new AttendanceDBContext();
+            
             ArrayList<AttendanceDetail> details = db.getAttendanceDetails(date, departmentId, shift);
 
             req.setAttribute("details", details);
