@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dal;
+
 import entity.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,35 +34,40 @@ public class ProductDBContext extends DBContext<Product> {
     }
 
     @Override
+  
     public ArrayList<Product> list() {
         ArrayList<Product> products = new ArrayList<>();
-            PreparedStatement command = null;
-            
-            String sql = "SELECT [ProductID]\n"
-                    + "      ,[ProductName]\n"
-                    + "  FROM [Product]";
+        PreparedStatement command = null;
+        ResultSet rs = null; // Khai báo ResultSet ở đây
+
         try {
+            String sql = "SELECT [ProductID], [ProductName] FROM [Product]";
             command = connection.prepareStatement(sql);
-            ResultSet rs = command.executeQuery();
+            rs = command.executeQuery(); // Lưu trữ ResultSet
+
             while (rs.next()) {
                 Product p = new Product();
                 p.setId(rs.getInt("ProductID"));
                 p.setName(rs.getString("ProductName"));
                 products.add(p);
             }
-            } catch (SQLException ex) {
+
+        } catch (SQLException ex) {
             Logger.getLogger(ProductDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close(); // Đóng ResultSet
+                }
+                if (command != null) {
+                    command.close(); // Đóng PreparedStatement
+                }
+                // Không đóng connection ở đây, hãy quản lý nó bên ngoài phương thức
+            } catch (SQLException ex) {
+                Logger.getLogger(ProductDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-            finally {
-                    try {
-                    command.close();
-                    connection.close();
-                    } catch (SQLException ex) {
-                    Logger.getLogger(ProductDBContext.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    }
-            return products;
-        
+        return products;
     }
 
     @Override
@@ -70,4 +76,3 @@ public class ProductDBContext extends DBContext<Product> {
     }
 
 }
-
