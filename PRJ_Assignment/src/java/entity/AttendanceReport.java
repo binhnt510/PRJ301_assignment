@@ -4,18 +4,15 @@
  */
 package entity;
 
-/**
- *
- * @author admin
- */
+import java.time.YearMonth;
+
 public class AttendanceReport {
-    private String employeeName;  // Thay đổi từ int employeeID sang String employeeName
+    private String employeeName;  
     private String[] dailyStatus = new String[31];
     
     public AttendanceReport() {
     }
-    
-    // Sửa getter/setter cho employeeName
+
     public String getEmployeeName() {
         return employeeName;
     }
@@ -38,5 +35,19 @@ public class AttendanceReport {
     
     public void setStatus(int day, String status) {
         this.dailyStatus[day-1] = status;
+    }
+    
+    // Add new helper method to get days in month
+    public static int getDaysInMonth(String yearMonth) {
+        if (yearMonth == null || yearMonth.isEmpty()) {
+            return 31; // Default value if no date selected
+        }
+        String[] parts = yearMonth.split("-");
+        if (parts.length != 2) {
+            return 31;
+        }
+        int year = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]);
+        return YearMonth.of(year, month).lengthOfMonth();
     }
 }

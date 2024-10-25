@@ -58,14 +58,24 @@ public class AttendanceController extends BaseRBACController {
 
             String shift = req.getParameter("shift");
 
-            
             ArrayList<AttendanceDetail> details = db.getAttendanceDetails(date, departmentId, shift);
+            int count=0;
+            for (AttendanceDetail detail : details) {
+                if (detail.getCreateBy()!= null) {
+                    count++;
+                }
+                
+            }
+            if (count!=0) {
+                req.getRequestDispatcher("../view/employee/attendance_report_exist.jsp").forward(req, resp);
+            } else {
+                req.setAttribute("details", details);
+                req.setAttribute("searchDate", date);
+                req.setAttribute("searchDepartment", departmentId);
+                req.setAttribute("searchShift", shift);
+                req.getRequestDispatcher("../view/employee/attendacene_insert.jsp").forward(req, resp);
+            }
 
-            req.setAttribute("details", details);
-            req.setAttribute("searchDate", date);
-            req.setAttribute("searchDepartment", departmentId);
-            req.setAttribute("searchShift", shift);
-            req.getRequestDispatcher("../view/employee/attendacene_insert.jsp").forward(req, resp);
         } else if ("save".equals(action)) {
             // Handle form 2 submission - save attendance
 
@@ -74,7 +84,6 @@ public class AttendanceController extends BaseRBACController {
             String[] notes = req.getParameterValues("note");
             String[] schEmpIds = req.getParameterValues("schEmpId");
 
-            
             int rowCount = Integer.parseInt(req.getParameter("rowCount"));
             for (int i = 0; i < rowCount; i++) {
                 if (actualQuantities[i] != null && !actualQuantities[i].isEmpty()) {
@@ -103,7 +112,7 @@ public class AttendanceController extends BaseRBACController {
                 }
             }
             req.setAttribute("depname", depname);
-            
+
             ArrayList<AttendanceDetail> details = db.getAttendanceDetails(date, departmentId, shift);
 
             req.setAttribute("details", details);

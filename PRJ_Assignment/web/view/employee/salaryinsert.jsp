@@ -8,7 +8,9 @@
         <style>
             table {
                 border-collapse: collapse;
-                width: 100%;
+                width: 80vw;
+                table-layout: auto;
+                font-size: 13px;
             }
             th, td {
                 border: 1px solid black;
@@ -22,7 +24,27 @@
     </head>
     <body>
         <form action="salaryworker" method="post">
-            Date:<input type="month" name="monthyear" required>
+            Date: <input type="month" name="monthyear" value="${selectedDate}" required>
             <input type="submit" value="List">
         </form>
-    </html>
+        <c:if test="${not empty reports}">
+            <table>
+            <tr>
+                <th>Employee Name</th>
+                <c:forEach begin="1" end="${daysInMonth}" var="day">
+                    <th>${day}</th>
+                </c:forEach>
+            </tr>
+            <br>
+            <c:forEach items="${reports}" var="report">
+                <tr>
+                    <td>${report.employeeName}</td>
+                    <c:forEach begin="1" end="${daysInMonth}" var="day">
+                        <td>${report.getStatus(day)}</td>
+                    </c:forEach>
+                </tr>
+            </c:forEach>
+        </table>
+        </c:if>
+    </body>
+</html>

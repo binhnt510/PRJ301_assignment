@@ -42,11 +42,11 @@
                         <td>${d.productName}</td>
                         <td>${d.orderedQuantity}</td>
                         <td>
-                            <input type="number" name="actualQuantity" 
+                            <input type="number" name="actualQuantity"  min="0"
                                    value="${d.actualQuantity}" required/>
                         </td>
                         <td>
-                            <input type="number" step="0.1" name="alpha" 
+                            <input type="number" step="0.1" name="alpha"  min="0"
                                    value="${d.alpha}" required/>
                         </td>
                         <td>

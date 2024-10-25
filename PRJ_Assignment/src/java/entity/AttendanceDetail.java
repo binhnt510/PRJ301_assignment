@@ -10,7 +10,7 @@ package entity;
  */
 public class AttendanceDetail {
     private int employeeId;
-    private int schEmpId;
+    private Integer schEmpId;
     private String employeeName;
     private String productName;
     private int orderedQuantity;
@@ -37,12 +37,14 @@ public class AttendanceDetail {
     public String getCreateBy() { return createBy; }
     public void setCreateBy(String createBy) { this.createBy = createBy; }
 
-    public int getSchEmpId() {
+    public Integer getSchEmpId() {
         return schEmpId;
     }
 
-    public void setSchEmpId(int schEmpId) {
+    public void setSchEmpId(Integer schEmpId) {
         this.schEmpId = schEmpId;
     }
+
+    
     
 }
