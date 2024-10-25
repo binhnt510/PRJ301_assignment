@@ -25,10 +25,6 @@
         <servlet-class>controller.employee.AttendanceController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Redirect</servlet-name>
-        <servlet-class>controller.accesscontrol.RedirectToLogin</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>SalaryWorkerController</servlet-name>
         <servlet-class>controller.employee.SalaryWorkerController</servlet-class>
     </servlet>
@@ -55,10 +51,6 @@
     <servlet-mapping>
         <servlet-name>AttendanceController</servlet-name>
         <url-pattern>/employee/attendance</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Redirect</servlet-name>
-        <url-pattern>/</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SalaryWorkerController</servlet-name>
