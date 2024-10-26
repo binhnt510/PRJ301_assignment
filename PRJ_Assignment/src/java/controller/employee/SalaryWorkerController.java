@@ -3,33 +3,83 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package controller.employee;
+import controller.accesscontrol.BaseRBACController;
+import dal.AttendanceReportDBContext;
 import dal.SalaryWorkerDBContext;
 import entity.AttendanceReport;
+import entity.Employee;
+import entity.SalaryDetail;
+import entity.accesscontrol.User;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
-public class SalaryWorkerController extends HttpServlet {
+public class SalaryWorkerController extends BaseRBACController {
+    
+    private double calculateSalary(AttendanceReport report, int daysInMonth) {
+        int totalDays = 0;
+        for (int i = 1; i <= daysInMonth; i++) {
+            String status = report.getStatus(i);
+            if (status != null && !status.trim().isEmpty() && !status.equals("null")) {
+                totalDays++;
+            }
+        }
+        return report.getSalary() * 8 * totalDays;
+    }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SalaryWorkerDBContext db = new SalaryWorkerDBContext();
+    protected void doAuthorizedPost(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException {
         String date = req.getParameter("monthyear");
-        ArrayList<AttendanceReport> reports = db.list1(date);
+        String action = req.getParameter("action");
         
-        // Add the selected date and number of days to request attributes
+        AttendanceReportDBContext db = new AttendanceReportDBContext();
+        ArrayList<AttendanceReport> reports = db.list1(date);
+        int daysInMonth = AttendanceReport.getDaysInMonth(date);
+        
+        if ("calculate".equals(action)) {
+            // Calculate salaries
+            for (AttendanceReport report : reports) {
+                double calculatedSalary = calculateSalary(report, daysInMonth);
+                report.setCalculatedSalary(calculatedSalary);
+            }
+        } else if ("save".equals(action)) {
+            // Save salaries to database
+            SalaryWorkerDBContext salaryDB = new SalaryWorkerDBContext();
+            
+            for (AttendanceReport report : reports) {
+                double calculatedSalary = calculateSalary(report, daysInMonth);
+                
+                SalaryDetail salary = new SalaryDetail();
+                Employee emp = new Employee();
+                emp.setId(report.getEmployeeId());
+                
+                salary.setEmp(emp);
+                salary.setMonthyear(date);
+                salary.setSalary(calculatedSalary);
+                salary.setFine(0.0);
+                salary.setNote(null);
+                
+                salaryDB.insert(salary);
+            }
+            
+            resp.sendRedirect(req.getRequestURI() + "?monthyear=" + date);
+            return;
+        }
+        
         req.setAttribute("selectedDate", date);
-        req.setAttribute("daysInMonth", AttendanceReport.getDaysInMonth(date));
+        req.setAttribute("daysInMonth", daysInMonth);
         req.setAttribute("reports", reports);
         
         req.getRequestDispatcher("/view/employee/salaryinsert.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException {
         req.getRequestDispatcher("/view/employee/salaryinsert.jsp").forward(req, resp);
     }
 }
+
+
+
