@@ -104,6 +104,7 @@
                 </table>
             </form>
         </c:if>
+        <h1 style="color: red">${report}</h1>
         <script>
     // Ví dụ biến searchDate có giá trị yyyy-mm-dd
     var searchDate = "${searchDate}";
