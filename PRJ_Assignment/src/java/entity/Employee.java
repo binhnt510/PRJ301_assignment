@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package entity;
+import entity.accesscontrol.Role;
 import entity.accesscontrol.User;
 import java.sql.*;
 
@@ -16,45 +17,10 @@ public class Employee {
     private boolean gender;
     private String address;
     private Date dob;
-    private User createdby;
-    private User updatedby;
-    private java.util.Date updatedtime;
-
-    public User getUpdatedby() {
-        return updatedby;
-    }
-
-    public void setUpdatedby(User updatedby) {
-        this.updatedby = updatedby;
-    }
-
-    public java.util.Date getUpdatedtime() {
-        return updatedtime;
-    }
-
-    public void setUpdatedtime(java.util.Date updatedtime) {
-        this.updatedtime = updatedtime;
-    }
-
-    public User getCreatedby() {
-        return createdby;
-    }
-
-    public void setCreatedby(User createdby) {
-        this.createdby = createdby;
-    }
-    
-    
+    private Role role;
     private Department dept;
-
-    public Department getDept() {
-        return dept;
-    }
-
-    public void setDept(Department dept) {
-        this.dept = dept;
-    }
-    
+    private String shift;
+    private Double salary;
 
     public int getId() {
         return id;
@@ -95,5 +61,40 @@ public class Employee {
     public void setDob(Date dob) {
         this.dob = dob;
     }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Department getDept() {
+        return dept;
+    }
+
+    public void setDept(Department dept) {
+        this.dept = dept;
+    }
+
+    public String getShift() {
+        return shift;
+    }
+
+    public void setShift(String shift) {
+        this.shift = shift;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
+    
+
+    
     
 }

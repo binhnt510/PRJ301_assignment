@@ -16,6 +16,10 @@ import java.sql.SQLException;
  *
  * @author sonnt-local
  */
+
+
+
+// dang sua lai
 public class EmployeeDBContext extends DBContext<Employee> {
 
     public ArrayList<Employee> search(Integer id, String name, Boolean gender, String address, Date from, Date to, Integer did) {
@@ -124,7 +128,7 @@ public class EmployeeDBContext extends DBContext<Employee> {
             stm_insert.setString(3, entity.getAddress());
             stm_insert.setDate(4, entity.getDob());
             stm_insert.setInt(5, entity.getDept().getId());
-            stm_insert.setString(6, entity.getCreatedby().getUsername());
+          //  stm_insert.setString(6, entity.getCreatedby().getUsername());
             stm_insert.executeUpdate();
 
             stm_select = connection.prepareStatement(sql_select);
@@ -174,7 +178,7 @@ public class EmployeeDBContext extends DBContext<Employee> {
             stm_update.setString(3, entity.getAddress());
             stm_update.setDate(4, entity.getDob());
             stm_update.setInt(5, entity.getDept().getId());
-            stm_update.setString(6, entity.getUpdatedby().getUsername());
+       //     stm_update.setString(6, entity.getUpdatedby().getUsername());
             stm_update.setInt(7, entity.getId());
             stm_update.executeUpdate();
 
@@ -276,7 +280,7 @@ public class EmployeeDBContext extends DBContext<Employee> {
                 e.setGender(rs.getBoolean("gender"));
                 e.setDob(rs.getDate("dob"));
                 e.setAddress(rs.getString("address"));
-                e.setUpdatedtime(rs.getTimestamp("updatedtime"));
+                //e.setUpdatedtime(rs.getTimestamp("updatedtime"));
 
                 Department d = new Department();
                 d.setId(rs.getInt("did"));
@@ -286,14 +290,14 @@ public class EmployeeDBContext extends DBContext<Employee> {
                 User c = new User();
                 c.setUsername(rs.getString("cusername"));
                 c.setDisplayname(rs.getString("cdisplayname"));
-                e.setCreatedby(c);
+             //   e.setCreatedby(c);
 
                 String uusername = rs.getString("uusername");
                 if (uusername != null) {
                     User u = new User();
                     u.setUsername(rs.getString("uusername"));
                     u.setDisplayname(rs.getString("udisplayname"));
-                    e.setUpdatedby(u);
+               //     e.setUpdatedby(u);
                 }
 
                 return e;
