@@ -6,33 +6,30 @@
 package controller.employee;
 
 import controller.accesscontrol.BaseRBACController;
-import dal.PlanCampainDBContext;
 import dal.PlanDBContext;
 import dal.PlanDetailsDBContext;
 import entity.Plan;
-import entity.PlanCampain;
 import entity.PlanDetails;
 import entity.accesscontrol.User;
-import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class ProductionPlanListController extends BaseRBACController{
-
+public class ListPlanController extends HttpServlet {
+    
     @Override
-    protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PlanDBContext db =new PlanDBContext();
         ArrayList<Plan> planName = db.list();
         req.setAttribute("planName", planName);
-        req.getRequestDispatcher("../view/work/searchplan.jsp").forward(req, resp);
+        req.getRequestDispatcher("/view/employee/searchplan.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doAuthorizedPost(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PlanDBContext planDB = new PlanDBContext();
         ArrayList<Plan> planName = planDB.list();
         req.setAttribute("planName", planName);
@@ -44,7 +41,6 @@ public class ProductionPlanListController extends BaseRBACController{
         req.setAttribute("details", details);
         req.setAttribute("selectedPlanName", selectedPlanName); // để hiển thị lại plan đã chọn
         
-        req.getRequestDispatcher("../view/work/searchplan.jsp").forward(req, resp);
+        req.getRequestDispatcher("/view/employee/searchplan.jsp").forward(req, resp);
     }
-    
 }

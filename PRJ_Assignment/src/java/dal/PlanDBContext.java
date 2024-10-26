@@ -9,10 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.*;
 
-/**
- *
- * @author sonnt-local
- */
+
 public class PlanDBContext extends DBContext<Plan> {
     
     @Override
@@ -99,7 +96,31 @@ public class PlanDBContext extends DBContext<Plan> {
     
     @Override
     public ArrayList<Plan> list() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<Plan> pls = new ArrayList<>();
+        PreparedStatement command = null;
+        try {
+            String sql = "select PlanID,PlanName from [Plan]";
+
+            command = connection.prepareStatement(sql);
+            ResultSet rs = command.executeQuery();
+            while (rs.next()) {
+                Plan p = new Plan();
+                p.setId(rs.getInt("PlanID"));
+                p.setName(rs.getString("PlanName"));
+                pls.add(p);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                command.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(PlanDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return pls;
     }
     
     @Override
