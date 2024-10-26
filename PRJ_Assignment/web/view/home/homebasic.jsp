@@ -138,7 +138,7 @@
         <div class="header">
             <a href="http://localhost:9999/ta.com/home" class="home-btn"><i class="fas fa-home"></i> Home</a>
             <div class="title">
-                <img src="http://localhost:9999/ta.com/img/logo.jpg">
+                <img src="http://localhost:9999/ta.com/img/logo123.jpg">
                 <div >Công ty thủ công mỹ nghệ Thế Anh</div>
             </div>
             <div class="right-controls">
