@@ -17,6 +17,7 @@ public class PlanDetails {
     private int estimate;
     private Integer accomplishedQuantity;
     private String status;
+    private Integer planCampnID;
 
     // Getters and Setters
     public int getPlanId() {
@@ -89,6 +90,14 @@ public class PlanDetails {
 
     public void setAccomplishedQuantity(Integer accomplishedQuantity) {
         this.accomplishedQuantity = accomplishedQuantity;
+    }
+
+    public Integer getPlanCampnID() {
+        return planCampnID;
+    }
+
+    public void setPlanCampnID(Integer planCampnID) {
+        this.planCampnID = planCampnID;
     }
 
     

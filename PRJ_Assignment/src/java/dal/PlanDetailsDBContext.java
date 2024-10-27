@@ -99,11 +99,79 @@ public class PlanDetailsDBContext extends DBContext<PlanDetails> {
 
     @Override
     public PlanDetails get(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        PreparedStatement stm =null;
+        try {
+            
+            String sql= """
+                                select pl.StartDate,pl.EndDate
+                                	from [Plan] pl left join PlanCampain pc
+                                	on pl.PlanID=pc.PlanID left join [Product] p
+                                	on p.ProductID=pc.ProductID left join Department d
+                                	on d.DepartmentID=pl.DepartmentID
+                                        where pc.PlanCampnID=?
+                                """;
+            stm =connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                PlanDetails pd = new PlanDetails();
+                pd.setStartDate(rs.getDate("StartDate"));
+                pd.setEndDate(rs.getDate("EndDate"));
+                return pd;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PlanDetailsDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally{
+            try {
+                stm.close();
+                connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(PlanDetailsDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
     }
 
     @Override
     public ArrayList<PlanDetails> list() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        ArrayList<PlanDetails> details = new ArrayList<>();
+        PreparedStatement stm = null;
+        try {
+            String sql = """
+                select pl.PlanID,pl.PlanName,pl.StartDate,pl.EndDate,
+                	d.DepartmentName,p.ProductName,pc.Quantity,pc.Estimate, pc.PlanCampnID
+                	from [Plan] pl left join PlanCampain pc
+                	on pl.PlanID=pc.PlanID left join [Product] p
+                	on p.ProductID=pc.ProductID left join Department d
+                	on d.DepartmentID=pl.DepartmentID
+                """;
+            
+            stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            
+            while(rs.next()) {
+                PlanDetails detail = new PlanDetails();
+                detail.setPlanId(rs.getInt("PlanID"));
+                detail.setPlanName(rs.getString("PlanName"));
+                detail.setStartDate(rs.getDate("StartDate"));
+                detail.setEndDate(rs.getDate("EndDate"));
+                detail.setDepartmentName(rs.getString("DepartmentName"));
+                detail.setProductName(rs.getString("ProductName"));
+                detail.setQuantity(rs.getInt("Quantity"));
+                detail.setEstimate(rs.getInt("Estimate"));
+                detail.setPlanCampnID(rs.getInt("PlanCampnID"));
+                details.add(detail);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PlanDetailsDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if(stm != null) stm.close();
+                if(connection != null) connection.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(PlanDetailsDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return details;
     }
 }
