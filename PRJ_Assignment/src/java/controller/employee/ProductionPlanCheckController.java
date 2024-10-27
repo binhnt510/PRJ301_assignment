@@ -21,14 +21,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
-public class ProductionPlanListController extends BaseRBACController{
+public class ProductionPlanCheckController extends BaseRBACController{
 
     @Override
     protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException {
         PlanDBContext db =new PlanDBContext();
         ArrayList<Plan> planName = db.list();
         req.setAttribute("planName", planName);
-        req.getRequestDispatcher("../view/work/searchplan.jsp").forward(req, resp);
+        req.getRequestDispatcher("../view/work/checkprocess.jsp").forward(req, resp);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ProductionPlanListController extends BaseRBACController{
         req.setAttribute("details", details);
         req.setAttribute("selectedPlanName", selectedPlanName); // để hiển thị lại plan đã chọn
         
-        req.getRequestDispatcher("../view/work/searchplan.jsp").forward(req, resp);
+        req.getRequestDispatcher("../view/work/checkprocess.jsp").forward(req, resp);
     }
     
 }

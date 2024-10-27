@@ -6,6 +6,7 @@
 
 <!-- view/work/searchplan.jsp -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -41,7 +42,7 @@
     </head>
     <body>
         <div class="search-form">
-            <form action="listplan" method="POST">
+            <form action="checkprocess" method="POST">
                 <label for="planName">Plan Name:</label>
                 <select name="planName" required id="planName" >
                     <c:forEach items="${requestScope.planName}" var="p">
@@ -77,8 +78,8 @@
                         <tr>
                             <td>${d.planId}</td>
                             <td>${d.planName}</td>
-                            <td>${d.startDate}</td>
-                            <td>${d.endDate}</td>
+                            <td> <fmt:formatDate value="${d.startDate}" pattern="dd-MM-yyyy" /></td>
+                            <td> <fmt:formatDate value="${d.endDate}" pattern="dd-MM-yyyy" /></td>
                             <td>${d.departmentName}</td>
                             <td>${d.productName}</td>
                             <td>${d.quantity}</td>
