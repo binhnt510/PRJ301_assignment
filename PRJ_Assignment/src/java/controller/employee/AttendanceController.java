@@ -59,31 +59,54 @@ public class AttendanceController extends BaseRBACController {
             String shift = req.getParameter("shift");
 
             ArrayList<AttendanceDetail> details = db.getAttendanceDetails(date, departmentId, shift);
-            int count=0;
+            int count = 0;
             for (AttendanceDetail detail : details) {
-                if (detail.getCreateBy()!= null) {
+                if (detail.getCreateBy() != null) {
                     count++;
                 }
-                
+
             }
-            if(details.isEmpty()){
-                resp.getWriter().println("<h1 style=\"color: red\">Nothing</h1>");
-            }else{
-            if (count!=0) {
-                req.getRequestDispatcher("../view/employee/attendance_report_exist.jsp").forward(req, resp);
-            } else {
-                req.setAttribute("details", details);
-                req.setAttribute("searchDate", date);
-                req.setAttribute("searchDepartment", departmentId);
-                req.setAttribute("searchShift", shift);
-                req.getRequestDispatcher("../view/employee/attendacene_insert.jsp").forward(req, resp);
+            for (int i = 0; i < details.size(); i++) {
+                AttendanceDetail currentDetail = details.get(i);
+
+                // Chỉ tính rowSpan nếu hàng này chưa được đánh dấu là phần của nhóm khác
+                if (currentDetail.getRowSpan() != 0) {
+                    int rowSpanCount = 1;
+
+                    // Kiểm tra các hàng tiếp theo
+                    for (int j = i + 1; j < details.size(); j++) {
+                        AttendanceDetail nextDetail = details.get(j);
+
+                        if (currentDetail.getEmployeeId() == nextDetail.getEmployeeId()
+                                && currentDetail.getEmployeeName().equals(nextDetail.getEmployeeName())) {
+                            rowSpanCount++;
+                            nextDetail.setRowSpan(0); // Đánh dấu hàng này là một phần của nhóm
+                        } else {
+                            break;
+                        }
+                    }
+
+                    currentDetail.setRowSpan(rowSpanCount);
+                }
             }
-            }
+//            if (details.isEmpty()) {
+//                resp.getWriter().println("<h1 style=\"color: red\">Nothing</h1>");
+//            } else {
+//                if (count != 0) {
+//                    req.getRequestDispatcher("../view/employee/attendance_report_exist.jsp").forward(req, resp);
+//                } else {
+                    req.setAttribute("details", details);
+                    req.setAttribute("searchDate", date);
+                    req.setAttribute("searchDepartment", departmentId);
+                    req.setAttribute("searchShift", shift);
+                    req.getRequestDispatcher("../view/employee/attendacene_insert.jsp").forward(req, resp);
+//                }
+//            }
         } else if ("save".equals(action)) {
             // Handle form 2 submission - save attendance
-
+            
             String[] actualQuantities = req.getParameterValues("actualQuantity");
-            String[] alphas = req.getParameterValues("alpha");
+            String[] alphas = req.getParameterValues("alpha" );
             String[] notes = req.getParameterValues("note");
             String[] schEmpIds = req.getParameterValues("schEmpId");
 
@@ -106,7 +129,30 @@ public class AttendanceController extends BaseRBACController {
             Date date = Date.valueOf(req.getParameter("date"));
             int departmentId = Integer.parseInt(req.getParameter("departmentId"));
             String shift = req.getParameter("shift");
+            ArrayList<AttendanceDetail> details = db.getAttendanceDetails(date, departmentId, shift);
+            for (int i = 0; i < details.size(); i++) {
+                AttendanceDetail currentDetail = details.get(i);
 
+                // Chỉ tính rowSpan nếu hàng này chưa được đánh dấu là phần của nhóm khác
+                if (currentDetail.getRowSpan() != 0) {
+                    int rowSpanCount = 1;
+
+                    // Kiểm tra các hàng tiếp theo
+                    for (int j = i + 1; j < details.size(); j++) {
+                        AttendanceDetail nextDetail = details.get(j);
+
+                        if (currentDetail.getEmployeeId() == nextDetail.getEmployeeId()
+                                && currentDetail.getEmployeeName().equals(nextDetail.getEmployeeName())) {
+                            rowSpanCount++;
+                            nextDetail.setRowSpan(0); // Đánh dấu hàng này là một phần của nhóm
+                        } else {
+                            break;
+                        }
+                    }
+
+                    currentDetail.setRowSpan(rowSpanCount);
+                }
+            }
             String depname = "";
             for (Department department : depts) {
                 if (departmentId == department.getId()) {
@@ -116,18 +162,16 @@ public class AttendanceController extends BaseRBACController {
             }
             req.setAttribute("depname", depname);
 
-            ArrayList<AttendanceDetail> details = db.getAttendanceDetails(date, departmentId, shift);
-            if(details.isEmpty()){
-                String report ="Nothing";
+            if (details.isEmpty()) {
+                String report = "Nothing";
                 req.setAttribute("report", report);
                 req.getRequestDispatcher("../view/employee/attendance_select.jsp").forward(req, resp);
-            }
-            else{
-            req.setAttribute("details", details);
-            req.setAttribute("searchDate", date);
-            req.setAttribute("searchDepartment", departmentId);
-            req.setAttribute("searchShift", shift);
-            req.getRequestDispatcher("../view/employee/attendance_select.jsp").forward(req, resp);
+            } else {
+                req.setAttribute("details", details);
+                req.setAttribute("searchDate", date);
+                req.setAttribute("searchDepartment", departmentId);
+                req.setAttribute("searchShift", shift);
+                req.getRequestDispatcher("../view/employee/attendance_select.jsp").forward(req, resp);
             }
         }
 

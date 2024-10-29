@@ -13,74 +13,103 @@
         <title>JSP Page</title>
     </head>
     <body>
-    <c:if test="${not empty details}">
-        <form action="attendance" method="post">
-            <input type="hidden" name="action" value="save"/>
-            <h1>Attendance at <span style="color: red"> ${requestScope.depname}</span> -- <span style="color: red" id="dateDisplay">${searchDate}</span> -- Production shift: <span style="color: red">${searchShift}</span> </h1>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Employee ID</th>
-                        <th>Employee Name</th>
-                        <th>Product Name</th>
-                        <th>Ordered Quantity</th>
-                        <th>Actual Quantity</th>
-                        <th>Alpha</th>
-                        <th>Note</th>
-                        <th>Createby</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${details}" var="d">
-                    <tr>
-                        <td>
-                            ${d.employeeId}
+        <c:if test="${not empty details}">
+            <form action="attendance" method="post">
+                <input type="hidden" name="action" value="save"/>
+                <h1>Attendance at <span style="color: red"> ${requestScope.depname}</span> -- <span style="color: red" id="dateDisplay">${searchDate}</span> -- Production shift: <span style="color: red">${searchShift}</span> </h1>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Employee Name</th>
+                            <th>Product Name</th>
+                            <th>Ordered Quantity</th>
+                            <th>Actual Quantity</th>
+                            <th>Alpha</th>
+                            <th>Note</th>
+                            <th>Createby</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${details}" var="d" varStatus="loop">
+                            <tr>
+                                <!-- Luôn giữ schEmpId cho mỗi hàng, không phụ thuộc vào việc gộp cột -->
+                        <input type="hidden" name="schEmpId" value="${d.schEmpId}"/>
 
-                            <input type="hidden" name="schEmpId" value="${d.schEmpId}"/>
-                        </td>
-                        <td>${d.employeeName}</td>
+                        <c:choose>
+                            <c:when test="${d.rowSpan > 0}">
+                                <td rowspan="${d.rowSpan}">
+                                    ${d.employeeId}
+                                </td>
+                                <td rowspan="${d.rowSpan}">${d.employeeName}</td>
+                            </c:when>
+                        </c:choose>
                         <td>${d.productName}</td>
                         <td>${d.orderedQuantity}</td>
                         <td>
-                            <input type="number" name="actualQuantity"  min="0"
+                            <input type="number" name="actualQuantity" min="0"
                                    value="${d.actualQuantity}" required/>
                         </td>
-                        <td>
-                            <input type="number" step="0.1" name="alpha"  min="0"
-                                   value="${d.alpha}" required/>
-                        </td>
+                        <c:choose>
+                            <c:when test="${d.rowSpan > 0}">
+                                <td rowspan="${d.rowSpan}">
+                                    <!-- Chỉ nhập alpha một lần cho nhóm trùng -->
+                                    <input type="number" step="0.1" name="alpha_${d.employeeId}" 
+                                           min="0" value="${d.alpha}" required
+                                           onchange="updateAlpha(this.value, '${d.employeeId}', ${d.rowSpan})"/>
+
+                                    <!-- Hidden inputs để đồng bộ giá trị alpha cho các hàng trong nhóm -->
+                                    <c:forEach begin="0" end="${d.rowSpan - 1}" varStatus="status">
+                                        <input type="hidden" 
+                                               name="alpha" 
+                                               id="alpha_hidden_${d.employeeId}_${status.index}"
+                                               value="${d.alpha}"/>
+                                    </c:forEach>
+                                </td>
+                            </c:when>
+                        </c:choose>
                         <td>
                             <input type="text" name="note" value="${d.note}"/>
                         </td>
-                        <td> <input type="text" name="username"  readonly style="background-color: gainsboro" value="${requestScope.account.username} "/> </td>
-                    </tr>
-                </c:forEach>
-                <input type="hidden" name="rowCount" value="${details.size()}"/>
-                </tbody>
-            </table>
+                        <td>
+                            <input type="text" name="username" readonly 
+                                   style="background-color: gainsboro" 
+                                   value="${requestScope.account.username} "/>
+                        </td>
+                        </tr>
+                    </c:forEach>
+                    <input type="hidden" name="rowCount" value="${details.size()}"/>
+                    </tbody>
+                </table>
                 <input id="submit" type="submit" onclick="sure()" value="Save Attendance"/>
-        </form>
-    </c:if>
-    <script>
-        function sure()
+            </form>
+        </c:if>
+        <script>
+            function updateAlpha(value, employeeId, rowSpan) {
+                // Cập nhật tất cả các hidden input của alpha cho cùng một nhóm employee
+                for (let i = 0; i < rowSpan; i++) {
+                    document.getElementById(`alpha_hidden_${employeeId}_${i}`).value = value;
+                }
+            }
+            function sure()
             {
                 var result = confirm("Are you sure to submit?");
-                if(result)
+                if (result)
                 {
                     document.getElementById("submit").submit();
                 }
             }
-// Ví dụ biến searchDate có giá trị yyyy-mm-dd
-        var searchDate = "${searchDate}";
+            // Ví dụ biến searchDate có giá trị yyyy-mm-dd
+            var searchDate = "${searchDate}";
 
-// Hàm để chuyển đổi sang dd-mm-yyyy
-        function formatDate(dateString) {
-            var dateParts = dateString.split("-");
-            return dateParts[2] + "/" + dateParts[1] + "/" + dateParts[0];
-        }
+            // Hàm để chuyển đổi sang dd-mm-yyyy
+            function formatDate(dateString) {
+                var dateParts = dateString.split("-");
+                return dateParts[2] + "/" + dateParts[1] + "/" + dateParts[0];
+            }
 
-// Chuyển đổi và hiển thị trong thẻ h1
-        document.getElementById('dateDisplay').innerHTML = formatDate(searchDate);
-    </script>
-</body>
+            // Chuyển đổi và hiển thị trong thẻ h1
+            document.getElementById('dateDisplay').innerHTML = formatDate(searchDate);
+        </script>
+    </body>
 </html>

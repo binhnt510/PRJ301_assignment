@@ -18,6 +18,7 @@ public class AttendanceDetail {
     private Double alpha;            // nullable for form input
     private String note;
     private String createBy;
+    private int rowSpan = 1;
     
     // Getters and setters
     public int getEmployeeId() { return employeeId; }
@@ -45,6 +46,14 @@ public class AttendanceDetail {
         this.schEmpId = schEmpId;
     }
 
+    public int getRowSpan() {
+        return rowSpan;
+    }
+
+    public void setRowSpan(int rowSpan) {
+        this.rowSpan = rowSpan;
+    }
+    
     
     
 }

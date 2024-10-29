@@ -29,7 +29,8 @@ public class AttendanceDBContext extends DBContext<AttendenceWorker> {
                     + "		on e.EmployeeID=se.EmployeeID  join PlanCampain pc\n"
                     + "		on pc.PlanCampnID=sc.PlanCampnID  join [Product] p\n"
                     + "		on p.ProductID=pc.ProductID\n"
-                    + "	where sc.Date=?  and e.DepartmentID=? and sc.Shift=?";
+                    + "	where sc.Date=?  and e.DepartmentID=? and sc.Shift=? \n"
+                    + "order by e.EmployeeID";
 
             stm = connection.prepareStatement(sql);
             stm.setDate(1, date);
