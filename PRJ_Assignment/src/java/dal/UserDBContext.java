@@ -103,7 +103,7 @@ public class UserDBContext extends DBContext<User> {
                 + "	INNER JOIN [Role] r ON r.RoleID = ur.RoleID\n"
                 + "	INNER JOIN RoleFeature rf ON r.RoleID = rf.RoleID\n"
                 + "	INNER JOIN Feature f ON f.FeatureID = rf.FeatureID\n"
-                + "WHERE u.UserName = ?\n"
+                + "WHERE u.UserName = ? and f.show='1'\n"
                 +"and url not like'/home'\n"
                 + "ORDER BY r.RoleID, f.FeatureID ASC";
         try {
