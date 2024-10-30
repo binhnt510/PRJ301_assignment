@@ -89,19 +89,19 @@ public class AttendanceController extends BaseRBACController {
                     currentDetail.setRowSpan(rowSpanCount);
                 }
             }
-//            if (details.isEmpty()) {
-//                resp.getWriter().println("<h1 style=\"color: red\">Nothing</h1>");
-//            } else {
-//                if (count != 0) {
-//                    req.getRequestDispatcher("../view/employee/attendance_report_exist.jsp").forward(req, resp);
-//                } else {
+            if (details.isEmpty()) {
+                resp.getWriter().println("<h1 style=\"color: red\">Nothing</h1>");
+            } else {
+                if (count != 0) {
+                    req.getRequestDispatcher("../view/employee/attendance_report_exist.jsp").forward(req, resp);
+                } else {
                     req.setAttribute("details", details);
                     req.setAttribute("searchDate", date);
                     req.setAttribute("searchDepartment", departmentId);
                     req.setAttribute("searchShift", shift);
                     req.getRequestDispatcher("../view/employee/attendacene_insert.jsp").forward(req, resp);
-//                }
-//            }
+                }
+            }
         } else if ("save".equals(action)) {
             // Handle form 2 submission - save attendance
             
