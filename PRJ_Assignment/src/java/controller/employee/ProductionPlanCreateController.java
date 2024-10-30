@@ -63,9 +63,9 @@ public class ProductionPlanCreateController extends BaseRBACController {
             String raw_cost = req.getParameter("cost"+pid);
             
             c.setQuantity(raw_quantity!=null&&raw_quantity.length()>0?Integer.parseInt(raw_quantity):0);
-            c.setCost(raw_cost!=null&&raw_cost.length()>0?Integer.parseInt(raw_cost):0);
+            c.setEstimate(raw_cost != null && !raw_cost.equals("0") && raw_cost.length() > 0 ? Integer.parseInt(raw_cost) : 0);
             
-            if(c.getQuantity()>0 && c.getCost()>0)
+            if(c.getQuantity()>0 && c.getEstimate()>0)
                 plan.getCampains().add(c);
         }
         resp.setContentType("text/html;charset=UTF-8");
