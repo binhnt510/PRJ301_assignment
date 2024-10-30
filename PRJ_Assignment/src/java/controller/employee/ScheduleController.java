@@ -7,6 +7,7 @@ package controller.employee;
 import controller.accesscontrol.BaseRBACController;
 import dal.PlanDetailsDBContext;
 import dal.SchedualCampaignDBContext;
+import entity.PlanCampain;
 import entity.PlanDetails;
 import entity.SchedualCampaign;
 import entity.accesscontrol.User;
@@ -91,11 +92,13 @@ public class ScheduleController extends BaseRBACController {
         String[] k3Values = request.getParameterValues("k3");
 
         ArrayList<SchedualCampaign> schedules = new ArrayList<>();
-
+        
         for (int i = 0; i < dates.length; i++) {
             if (k1Values[i] != null && !k1Values[i].isEmpty()) {
                 SchedualCampaign sc = new SchedualCampaign();
-                sc.setPlanCampnID(planCampnID);
+                PlanCampain p = new PlanCampain();
+                p.setId(planCampnID);
+                sc.setPlanCampain(p);
                 sc.setDate(Date.valueOf(dates[i]));
                 sc.setShift("K1");
                 sc.setQuantity(Integer.parseInt(k1Values[i]));
@@ -104,7 +107,9 @@ public class ScheduleController extends BaseRBACController {
 
             if (k2Values[i] != null && !k2Values[i].isEmpty()) {
                 SchedualCampaign sc = new SchedualCampaign();
-                sc.setPlanCampnID(planCampnID);
+                PlanCampain p = new PlanCampain();
+                p.setId(planCampnID);
+                sc.setPlanCampain(p);
                 sc.setDate(Date.valueOf(dates[i]));
                 sc.setShift("K2");
                 sc.setQuantity(Integer.parseInt(k2Values[i]));
@@ -113,7 +118,9 @@ public class ScheduleController extends BaseRBACController {
 
             if (k3Values[i] != null && !k3Values[i].isEmpty()) {
                 SchedualCampaign sc = new SchedualCampaign();
-                sc.setPlanCampnID(planCampnID);
+                PlanCampain p = new PlanCampain();
+                p.setId(planCampnID);
+                sc.setPlanCampain(p);
                 sc.setDate(Date.valueOf(dates[i]));
                 sc.setShift("K3");
                 sc.setQuantity(Integer.parseInt(k3Values[i]));
@@ -131,11 +138,11 @@ public class ScheduleController extends BaseRBACController {
             db.insertBatch(schedules);
             // Chuyển hướng về trang chủ sau khi insert
             session.setAttribute("insertPageVisited", false); // Ngăn submit lại
-            response.sendRedirect("listplans"); // Trang chủ
+            response.sendRedirect("listplan"); // Trang chủ
         } else {
 //        // Nếu người dùng cố submit lại, chuyển hướng hoặc thông báo lỗi
-            response.sendRedirect("listplans"); // Thông báo không thể submit lại
+            response.sendRedirect("listplan"); // Thông báo không thể submit lại
         }
-        response.sendRedirect("listplans");
+        
     }
 }

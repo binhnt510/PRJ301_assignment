@@ -8,7 +8,7 @@ import java.sql.Date;
 
 public class SchedualCampaign {
     private int scID;
-    private int planCampnID;
+    private PlanCampain planCampain;
     private Date date;
     private String shift;
     private int quantity;
@@ -22,12 +22,12 @@ public class SchedualCampaign {
         this.scID = scID;
     }
 
-    public int getPlanCampnID() {
-        return planCampnID;
+    public PlanCampain getPlanCampain() {
+        return planCampain;
     }
 
-    public void setPlanCampnID(int planCampnID) {
-        this.planCampnID = planCampnID;
+    public void setPlanCampain(PlanCampain planCampain) {
+        this.planCampain = planCampain;
     }
 
     public Date getDate() {

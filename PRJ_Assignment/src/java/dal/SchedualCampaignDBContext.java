@@ -2,14 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package dal;
+
 /**
  *
  * @author admin
  */
 
-
+import entity.PlanCampain;
+import entity.Product;
 import entity.SchedualCampaign;
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SchedualCampaignDBContext extends DBContext<SchedualCampaign> {
-    
+
     public boolean existsByPlanCampainId(int planCampnID) {
         PreparedStatement stm = null;
         try {
@@ -25,40 +26,45 @@ public class SchedualCampaignDBContext extends DBContext<SchedualCampaign> {
             stm = connection.prepareStatement(sql);
             stm.setInt(1, planCampnID);
             ResultSet rs = stm.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("count") > 0;
             }
         } catch (SQLException ex) {
             Logger.getLogger(SchedualCampaignDBContext.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                if(stm != null) stm.close();
-                if(connection != null) connection.close();
+                if (stm != null) {
+                    stm.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(SchedualCampaignDBContext.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return false;
     }
-    
+
     public void insertBatch(ArrayList<SchedualCampaign> schedules) {
         PreparedStatement stm = null;
         try {
             connection.setAutoCommit(false);
             String sql = "INSERT INTO SchedualCampaign (PlanCampnID, Date, Shift, Quantity) VALUES (?, ?, ?, ?)";
             stm = connection.prepareStatement(sql);
-            
-            for(SchedualCampaign sc : schedules) {
-                stm.setInt(1, sc.getPlanCampnID());
+
+            for (SchedualCampaign sc : schedules) {
+                PlanCampain p = new PlanCampain();
+                stm.setInt(1, sc.getPlanCampain().getId());
                 stm.setDate(2, sc.getDate());
                 stm.setString(3, sc.getShift());
                 stm.setInt(4, sc.getQuantity());
                 stm.addBatch();
             }
-            
+
             stm.executeBatch();
             connection.commit();
-            
+
         } catch (SQLException ex) {
             try {
                 connection.rollback();
@@ -68,8 +74,10 @@ public class SchedualCampaignDBContext extends DBContext<SchedualCampaign> {
             Logger.getLogger(SchedualCampaignDBContext.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                if(stm != null) stm.close();
-                if(connection != null) {
+                if (stm != null) {
+                    stm.close();
+                }
+                if (connection != null) {
                     connection.setAutoCommit(true);
                     connection.close();
                 }
@@ -78,29 +86,31 @@ public class SchedualCampaignDBContext extends DBContext<SchedualCampaign> {
             }
         }
     }
+
     
-    @Override
-    public ArrayList<SchedualCampaign> list() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
+
     @Override
     public void insert(SchedualCampaign entity) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
     @Override
     public void update(SchedualCampaign entity) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
     @Override
     public void delete(SchedualCampaign entity) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
     @Override
     public SchedualCampaign get(int id) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ArrayList<SchedualCampaign> list() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
