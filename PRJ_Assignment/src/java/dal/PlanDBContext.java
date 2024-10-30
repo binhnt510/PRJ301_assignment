@@ -57,7 +57,7 @@ public class PlanDBContext extends DBContext<Plan> {
                 stm_insert_campain.setInt(1, entity.getId());
                 stm_insert_campain.setInt(2, campain.getProduct().getId());
                 stm_insert_campain.setInt(3, campain.getQuantity());
-                stm_insert_campain.setFloat(4, campain.getCost());
+                stm_insert_campain.setFloat(4, campain.getEstimate());
                 stm_insert_campain.executeUpdate();
             }
             
