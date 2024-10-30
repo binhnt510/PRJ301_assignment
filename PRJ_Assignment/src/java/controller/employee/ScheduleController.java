@@ -22,29 +22,35 @@ import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.text.SimpleDateFormat;
+
 /**
  *
  * @author admin
  */
-
 public class ScheduleController extends BaseRBACController {
-    
+
     @Override
     protected void doAuthorizedGet(HttpServletRequest request, HttpServletResponse response, User account)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
         int planCampnID = Integer.parseInt(request.getParameter("planCampnID"));
-        
+
+        String planName = request.getParameter("planName");  // Tiếng Việt sẽ tự động giải mã khi nhận
+        String start = request.getParameter("startDate");
+        String end = request.getParameter("endDate");
+        String departmentName = request.getParameter("departmentName");
+        String productName = request.getParameter("productName");
+        String quantity = request.getParameter("quantity");
+        String estimate = request.getParameter("estimate");
         SchedualCampaignDBContext db = new SchedualCampaignDBContext();
-        if(db.existsByPlanCampainId(planCampnID)) {
+        if (db.existsByPlanCampainId(planCampnID)) {
             request.setAttribute("message", "Plan has created for SchedualCampaign");
         }
-        
+
         // Get plan details for dates
         PlanDetailsDBContext planDB = new PlanDetailsDBContext();
         PlanDetails plan = planDB.get(planCampnID);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        
 
         // Chuyển đổi chuỗi ngày sang kiểu LocalDate
         LocalDate startDate = plan.getStartDate().toLocalDate();
@@ -63,24 +69,31 @@ public class ScheduleController extends BaseRBACController {
         // Chuyển ArrayList sang mảng String
         String[] dateArray = dateList.toArray(new String[0]);
         session.setAttribute("insertPageVisited", true);
+        request.setAttribute("planName", planName);
+        request.setAttribute("start", start);
+        request.setAttribute("end", end);
+        request.setAttribute("departmentName", departmentName);
+        request.setAttribute("productName", productName);
+        request.setAttribute("quantity", quantity);
+        request.setAttribute("estimate", estimate);
         request.setAttribute("planCampnID", planCampnID);
         request.setAttribute("dates", dateArray);
         request.getRequestDispatcher("../view/work/schedualcampaign.jsp").forward(request, response);
     }
-    
+
     @Override
     protected void doAuthorizedPost(HttpServletRequest request, HttpServletResponse response, User account)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         int planCampnID = Integer.parseInt(request.getParameter("planCampnID"));
         String[] dates = request.getParameterValues("date");
         String[] k1Values = request.getParameterValues("k1");
         String[] k2Values = request.getParameterValues("k2");
         String[] k3Values = request.getParameterValues("k3");
-        
+
         ArrayList<SchedualCampaign> schedules = new ArrayList<>();
-        
-        for(int i = 0; i < dates.length; i++) {
-            if(k1Values[i] != null && !k1Values[i].isEmpty()) {
+
+        for (int i = 0; i < dates.length; i++) {
+            if (k1Values[i] != null && !k1Values[i].isEmpty()) {
                 SchedualCampaign sc = new SchedualCampaign();
                 sc.setPlanCampnID(planCampnID);
                 sc.setDate(Date.valueOf(dates[i]));
@@ -88,8 +101,8 @@ public class ScheduleController extends BaseRBACController {
                 sc.setQuantity(Integer.parseInt(k1Values[i]));
                 schedules.add(sc);
             }
-            
-            if(k2Values[i] != null && !k2Values[i].isEmpty()) {
+
+            if (k2Values[i] != null && !k2Values[i].isEmpty()) {
                 SchedualCampaign sc = new SchedualCampaign();
                 sc.setPlanCampnID(planCampnID);
                 sc.setDate(Date.valueOf(dates[i]));
@@ -97,8 +110,8 @@ public class ScheduleController extends BaseRBACController {
                 sc.setQuantity(Integer.parseInt(k2Values[i]));
                 schedules.add(sc);
             }
-            
-            if(k3Values[i] != null && !k3Values[i].isEmpty()) {
+
+            if (k3Values[i] != null && !k3Values[i].isEmpty()) {
                 SchedualCampaign sc = new SchedualCampaign();
                 sc.setPlanCampnID(planCampnID);
                 sc.setDate(Date.valueOf(dates[i]));
@@ -107,22 +120,22 @@ public class ScheduleController extends BaseRBACController {
                 schedules.add(sc);
             }
         }
-        
+
         SchedualCampaignDBContext db = new SchedualCampaignDBContext();
-        
+
         HttpSession session = request.getSession();
-    Boolean insertPageVisited = (Boolean) session.getAttribute("insertPageVisited");
-         if (insertPageVisited != null && insertPageVisited) {
-        // Tiến hành insert dữ liệu vào database
-        // (giả sử insert thành công)
-        db.insertBatch(schedules);
-        // Chuyển hướng về trang chủ sau khi insert
-        session.setAttribute("insertPageVisited", false); // Ngăn submit lại
-        response.sendRedirect("listplans"); // Trang chủ
-       } else {
+        Boolean insertPageVisited = (Boolean) session.getAttribute("insertPageVisited");
+        if (insertPageVisited != null && insertPageVisited) {
+            // Tiến hành insert dữ liệu vào database
+            // (giả sử insert thành công)
+            db.insertBatch(schedules);
+            // Chuyển hướng về trang chủ sau khi insert
+            session.setAttribute("insertPageVisited", false); // Ngăn submit lại
+            response.sendRedirect("listplans"); // Trang chủ
+        } else {
 //        // Nếu người dùng cố submit lại, chuyển hướng hoặc thông báo lỗi
-        response.sendRedirect("listplans"); // Thông báo không thể submit lại
-    }
+            response.sendRedirect("listplans"); // Thông báo không thể submit lại
+        }
         response.sendRedirect("listplans");
     }
 }

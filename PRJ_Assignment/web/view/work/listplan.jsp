@@ -6,6 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,7 +53,7 @@
                 <td>
                     <c:choose>
                         <c:when test="${empty plan.status}">
-                            <a href="schedualcampaigns?planCampnID=${plan.planCampnID}">Create plan for SchedualCampaign</a>
+                            <a href="schedulecampain?planCampnID=${plan.planCampnID}&planName=${plan.planName}&startDate=${plan.startDate}&endDate=${plan.endDate}&departmentName=${plan.departmentName}&productName=${plan.productName}&quantity=${plan.quantity}&estimate=${plan.estimate}">Create plan for SchedualCampaign</a>
                         </c:when>
                         <c:otherwise>
                             Plan has created for SchedualCampaign

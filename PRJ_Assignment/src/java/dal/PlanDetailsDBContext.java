@@ -52,7 +52,7 @@ public class PlanDetailsDBContext extends DBContext<PlanDetails> {
                 """;
             
             stm = connection.prepareStatement(sql);
-            stm.setString(1, "%" + planName + "%");
+            stm.setString(1, planName );
             ResultSet rs = stm.executeQuery();
             
             while(rs.next()) {
@@ -144,6 +144,7 @@ public class PlanDetailsDBContext extends DBContext<PlanDetails> {
                 	on pl.PlanID=pc.PlanID left join [Product] p
                 	on p.ProductID=pc.ProductID left join Department d
                 	on d.DepartmentID=pl.DepartmentID
+                order by pl.PlanID desc
                 """;
             
             stm = connection.prepareStatement(sql);

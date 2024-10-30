@@ -68,17 +68,36 @@ public class ProductionPlanCreateController extends BaseRBACController {
             if(c.getQuantity()>0 && c.getCost()>0)
                 plan.getCampains().add(c);
         }
-        
+        resp.setContentType("text/html;charset=UTF-8");
         if(plan.getCampains().size()>0)
         {
             //insert
             PlanDBContext db = new PlanDBContext();
             db.insert(plan);
-            resp.getWriter().println("your plan has been added!");
+            resp.getWriter().println("<!DOCTYPE html>");
+            resp.getWriter().println("<html>");
+            resp.getWriter().println("<head>");
+            resp.getWriter().println("<title>Servlet NewServlet</title>");  
+            resp.getWriter().println("</head>");
+            resp.getWriter().println("<body>");
+            resp.getWriter().println("<h2 style=\"color: red\">Your plan has been added!</h2>");
+            resp.getWriter().println("<a href=\"createplan\"><button type=\"button\" style=\"font-size: 20px\">Back</button></a>");
+            resp.getWriter().println("</body>");
+            resp.getWriter().println("</html>");
         }
         else
         {
-            resp.getWriter().println("your plan does not have any products / campains");
+           
+            resp.getWriter().println("<!DOCTYPE html>");
+            resp.getWriter().println("<html>");
+            resp.getWriter().println("<head>");
+            resp.getWriter().println("<title>Servlet NewServlet</title>");  
+            resp.getWriter().println("</head>");
+            resp.getWriter().println("<body>");
+            resp.getWriter().println("<h2 style=\"color: red\">Your plan does not have any products / campains</h2>");
+            resp.getWriter().println("<a href=\"createplan\"><button type=\"button\" style=\"font-size: 20px\">Back</button></a>");
+            resp.getWriter().println("</body>");
+            resp.getWriter().println("</html>");
         }
         
     }    

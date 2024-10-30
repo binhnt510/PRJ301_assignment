@@ -37,7 +37,7 @@ public class SalaryWorkerController extends BaseRBACController {
         AttendanceReportDBContext db = new AttendanceReportDBContext();
         ArrayList<AttendanceReport> reports = db.list1(date);
         int daysInMonth = AttendanceReport.getDaysInMonth(date);
-        
+        SalaryWorkerDBContext salaryDB = new SalaryWorkerDBContext();
         if ("calculate".equals(action)) {
             // Calculate salaries
             for (AttendanceReport report : reports) {
@@ -46,7 +46,7 @@ public class SalaryWorkerController extends BaseRBACController {
             }
         } else if ("save".equals(action)) {
             // Save salaries to database
-            SalaryWorkerDBContext salaryDB = new SalaryWorkerDBContext();
+            
             
             for (AttendanceReport report : reports) {
                 double calculatedSalary = calculateSalary(report, daysInMonth);
@@ -67,7 +67,9 @@ public class SalaryWorkerController extends BaseRBACController {
             resp.sendRedirect(req.getRequestURI() + "?monthyear=" + date);
             return;
         }
-        
+        if (salaryDB.existsBySalaryWorkerDate(date)) {
+            req.setAttribute("message", "Salaryworker has added for "+date);
+        }
         req.setAttribute("selectedDate", date);
         req.setAttribute("daysInMonth", daysInMonth);
         req.setAttribute("reports", reports);

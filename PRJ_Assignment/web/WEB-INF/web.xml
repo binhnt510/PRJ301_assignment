@@ -33,8 +33,12 @@
         <servlet-class>controller.employee.PlanController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>schedualcampaign</servlet-name>
+        <servlet-name>schedulecampain</servlet-name>
         <servlet-class>controller.employee.ScheduleController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>listsalary</servlet-name>
+        <servlet-class>controller.employee.SalaryListController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>login</servlet-name>
@@ -66,10 +70,14 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>listplan</servlet-name>
-        <url-pattern>/work/listplans</url-pattern>
+        <url-pattern>/work/listplan</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>schedualcampaign</servlet-name>
-        <url-pattern>/work/schedualcampaigns</url-pattern>
+        <servlet-name>schedulecampain</servlet-name>
+        <url-pattern>/work/schedulecampain</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>listsalary</servlet-name>
+        <url-pattern>/employee/listsalary</url-pattern>
     </servlet-mapping>
 </web-app>

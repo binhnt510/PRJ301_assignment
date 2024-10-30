@@ -103,7 +103,7 @@
         <div class="header">
             <a href="http://localhost:9999/ta.com/home" class="home-btn"><i class="fas fa-home"></i> Home</a>
             <div class="title">
-                <img src="http://localhost:9999/ta.com/img/logo.jpg">
+                <img src="http://localhost:9999/ta.com/img/logo1234\.jpg">
                 <div >Công ty thủ công mỹ nghệ Thế Anh</div>
             </div>
             <div class="right-controls">
@@ -119,7 +119,8 @@
              <form action="createplan" method="POST">
                  Plan title: <input type="text" name="name" required="" /> <br/>
             From : <input type="date" name="from" required /> To: <input type="date" name="to" required/> <br/>
-            Workshop: <select name="did">
+            Workshop: <select name="did" required>
+                <option value="" disabled selected>----Select Workshop----</option>
                 <c:forEach items="${requestScope.depts}" var="d">
                     <option value="${d.id}">${d.name}</option>
                 </c:forEach>
