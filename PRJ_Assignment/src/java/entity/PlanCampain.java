@@ -13,7 +13,7 @@ public class PlanCampain {
     private Plan plan;
     private Product product;
     private int quantity;
-    private int estimate;
+    private int cost;
 
     public int getId() {
         return id;
@@ -47,11 +47,14 @@ public class PlanCampain {
         this.quantity = quantity;
     }
 
-    public int getEstimate() {
-        return estimate;
+    public int getCost() {
+        return cost;
     }
 
-    public void setEstimate(int estimate) {
-        this.estimate = estimate;
+    public void setCost(int cost) {
+        this.cost = cost;
     }
+
+    
+    
 }
