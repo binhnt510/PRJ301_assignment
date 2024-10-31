@@ -100,16 +100,17 @@ public class SalaryWorkerDBContext extends DBContext<SalaryDetail> {
         ResultSet rs = null; // Khai báo ResultSet ở đây
 
         try {
-            String sql = "SELECT [SalaryID],[EmployeeID],[MonthYear],[Salary],[Fine],[Note]  FROM [Salary]  where MonthYear=?";
+            String sql = " SELECT e.EmployeeID,e.EmployeeName,s.MonthYear,s.Salary,s.Fine,s.Note  FROM Salary s join Employee e on s.EmployeeID=e.EmployeeID where MonthYear=?";
             command = connection.prepareStatement(sql);
             command.setString(1, date);
             rs = command.executeQuery(); // Lưu trữ ResultSet
             
             while (rs.next()) {
                 SalaryDetail s = new SalaryDetail();
-                s.setSalaryID(rs.getInt("SalaryID"));
+                
                 Employee e= new Employee();
                 e.setId(rs.getInt("EmployeeID"));
+                e.setName(rs.getNString("EmployeeName"));
                 s.setEmp(e);
                 s.setMonthyear(rs.getString("MonthYear"));
                 s.setFine(rs.getDouble("Fine"));

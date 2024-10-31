@@ -48,6 +48,7 @@
             <c:if test="${not empty reports}">
                 <table>
                     <tr>
+                        <th>Employee ID</th>
                         <th>Employee Name</th>
                             <c:forEach begin="1" end="${daysInMonth}" var="day">
                             <th>${day}</th>
@@ -56,6 +57,7 @@
                     </tr>
                     <c:forEach items="${reports}" var="report">
                         <tr>
+                            <td>${report.employeeId}</td>
                             <td>${report.employeeName}</td>
                             <c:forEach begin="1" end="${daysInMonth}" var="day">
                                 <td>${report.getStatus(day)}</td>
@@ -70,19 +72,36 @@
                 </table>
 
                 <div class="button-container">
-                    <form action="salaryworker" method="post" style="display: inline;">
+                    <form action="salaryworker" method="post" style="display: inline;" onsubmit="enableSaveButton()">
                         <input type="hidden" name="monthyear" value="${selectedDate}">
                         <input type="hidden" name="action" value="calculate">
                         <input type="submit" value="Calculate Salaries">
                     </form>
 
-                    <form action="salaryworker" method="post" style="display: inline;">
+                    <form action="salaryworker" method="post" style="display: inline;" onsubmit="return checkEndOfMonth()">
                         <input type="hidden" name="monthyear" value="${selectedDate}">
                         <input type="hidden" name="action" value="save">
-                        <input type="submit" value="Save Salaries">
+                        <input type="submit" id="saveButton" value="Save Salaries" <c:if test="${action != 'calculate'}">disabled</c:if>>
                     </form>
                 </div>
             </c:if>
         </c:if>
+        <script>
+            function enableSaveButton() {
+                // Kích hoạt nút Save sau khi nhấn Calculate
+                document.getElementById('saveButton').disabled = false;
+            }
+
+            function checkEndOfMonth() {
+                const today = new Date();
+                const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+
+                if (today.getDate() !== lastDayOfMonth) {
+                    alert("Bạn chỉ có thể lưu tiền lương vào ngày cuối tháng!");
+                    return false;
+                }
+                return true;
+            }
+        </script>
     </body>
 </html>

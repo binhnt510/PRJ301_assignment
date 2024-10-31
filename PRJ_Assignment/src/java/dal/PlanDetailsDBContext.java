@@ -28,7 +28,7 @@ public class PlanDetailsDBContext extends DBContext<PlanDetails> {
                         WHERE pc2.PlanID = p.PlanID
                         AND sc.Date BETWEEN p.StartDate AND p.EndDate) as AccomplishedQuantity,
                        CASE 
-                           WHEN GETDATE() < p.StartDate THEN 'not started' 
+                           WHEN GETDATE() < p.StartDate THEN 'not-started' 
                            WHEN GETDATE() BETWEEN p.StartDate AND p.EndDate THEN 'on going'
                            WHEN GETDATE() > p.EndDate AND
                                 (SELECT ISNULL(SUM(aw.ActuralQuantity), 0)

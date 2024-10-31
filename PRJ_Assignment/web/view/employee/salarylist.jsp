@@ -4,6 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <title>Salary List</title>
         <style>
             body {
@@ -148,10 +149,102 @@
                     width: 100%;
                 }
             }
+            .header {
+                background-color: #1c7eed;
+                color: white;
+                padding: 10px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: relative;
+            }
+            .home-btn {
+                display: flex;
+                align-items: center;
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+                text-decoration: none;
+            }
+            .home-btn i {
+                margin-right: 5px;
+            }
+            .home-btn:hover {
+                background-color: #45a049;
+            }
+            .title {
+                font-size: 24px;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+
+            }
+            .title img{
+                border-radius: 10px;
+                width: 80px;
+                height: 35px;
+                margin-bottom: 5px;
+            }
+            .right-controls p{
+                color: orange;
+                margin: 0;
+                margin-right: 5px;
+            }
+            .right-controls {
+                display: flex;
+                align-items: center;
+            }
+            .right-controls ul{
+                list-style: none;
+            }
+            .right-controls li{
+                display: flex;
+                text-align: center;
+            }
+
+            .profile-icon img {
+
+                padding: 10px;
+                border-radius: 50%;
+                text-align: center;
+                width: 45px;
+                height: 45px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 18px;
+            }
+            .logout {
+                background-color: #e14d4d;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+                text-decoration: none;
+            }
+            .logout:hover {
+                background-color: #ff0000;
+            }
         </style>
     </head>
     <body>
-        <div class="container">
+        <div class="header">
+            <a href="http://localhost:9999/ta.com/home" class="home-btn"><i class="fas fa-home"></i> Home</a>
+            <div class="title">
+                <img src="http://localhost:9999/ta.com/img/logo123.jpg">
+                <div >Công ty thủ công mỹ nghệ Thế Anh</div>
+            </div>
+            <div class="right-controls">
+                <ul>
+                    <li><p>Username: </p> ${sessionScope.account.username}</li>
+                    <li> ${sessionScope.account.displayname}</li>
+                </ul>
+                <div class="profile-icon"><img src="http://localhost:9999/ta.com/img/abstract-user-flat-4.png"></div>
+                <a class="logout" href="http://localhost:9999/ta.com/logout"><i class="fas fa-sign-out-alt"></i></a>
+            </div>
+        </div>
+        <div class="container" style="margin-top: 20px">
             <h1>Salary List</h1>
 
             <div class="search-form">
@@ -165,8 +258,8 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Salary ID</th>
                             <th>Employee ID</th>
+                            <th>Employee Name</th>
                             <th>Month Year</th>
                             <th>Salary</th>
                             <th>Fine</th>
@@ -176,8 +269,8 @@
                     <tbody>
                         <c:forEach items="${salaryList}" var="s">
                             <tr>
-                                <td>${s.salaryID}</td>
                                 <td>${s.emp.id}</td>
+                                <td>${s.emp.name}</td>
                                 <td>${s.monthyear}</td>
                                 <td class="currency" style="color: green">${String.format("%,d", s.salary.longValue())}vnd</td>
                                 <td class="currency" style="color: red">${String.format("%,d", s.fine.longValue())}vnd</td>

@@ -97,13 +97,78 @@
             .logout:hover {
                 background-color: #ff0000;
             }
+            .form-container {
+                max-width: 800px;
+                margin: 20px auto;
+                padding: 20px;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .form-group label {
+                display: inline-block;
+                width: 120px;
+                font-weight: bold;
+            }
+
+            .form-group input[type="text"],
+            .form-group input[type="date"],
+            .form-group select {
+                width: calc(100% - 130px);
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+            .form-group select {
+                height: 35px;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+
+            table, th, td {
+                border: 1px solid #ddd;
+            }
+
+            th, td {
+                padding: 10px;
+                text-align: left;
+            }
+
+            th {
+                background-color: #f2f2f2;
+            }
+
+            input[type="submit"] {
+                background-color: #1c7eed;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+                margin-top: 20px;
+            }
+
+            input[type="submit"]:hover {
+                background-color: #1666c5;
+            }
         </style>
     </head>
     <body>
         <div class="header">
             <a href="http://localhost:9999/ta.com/home" class="home-btn"><i class="fas fa-home"></i> Home</a>
             <div class="title">
-                <img src="http://localhost:9999/ta.com/img/logo1234\.jpg">
+                <img src="http://localhost:9999/ta.com/img/logo123.jpg">
                 <div >Công ty thủ công mỹ nghệ Thế Anh</div>
             </div>
             <div class="right-controls">
@@ -115,33 +180,62 @@
                 <a class="logout" href="http://localhost:9999/ta.com/logout"><i class="fas fa-sign-out-alt"></i></a>
             </div>
         </div>
-        <div style="margin-top: 20px">
-             <form action="createplan" method="POST">
-                 Plan title: <input type="text" name="name" required="" /> <br/>
-            From : <input type="date" name="from" required /> To: <input type="date" name="to" required/> <br/>
-            Workshop: <select name="did" required>
-                <option value="" disabled selected>----Select Workshop----</option>
-                <c:forEach items="${requestScope.depts}" var="d">
-                    <option value="${d.id}">${d.name}</option>
-                </c:forEach>
-            </select> <br/>
-            <table border="1px">
-                <tr>
-                    <td>Product</td>
-                    <td>Quantity</td>
-                    <td>Estimate</td>
-                </tr>
-                <c:forEach items="${requestScope.products}" var="p">
-                 <tr>
-                     <td>${p.name}<input type="hidden" value="${p.id}" name="pid"/></td>
-                    <td><input type="text" name="quantity${p.id}"/></td>
-                    <td><input type="text" name="cost${p.id}"/></td>
-                </tr>   
-                </c:forEach>
-            </table>
-            <input type="submit" name="Save"/>
-        </form>       
-        </div>
-        
+        <div class="form-container">
+            <h2 style="text-align: center">Create Plan</h2>
+            <form action="createplan" method="POST">
+                <div class="form-group">
+                    <label for="plan-title">Plan title:</label>
+                    <input type="text" id="plan-title" name="name" required />
+                </div>
+                <div class="form-group">
+                    <label for="from">From:</label>
+                    <input type="date" id="from" name="from" required />
+                </div>
+                <div class="form-group">
+                    <label for="to">To:</label>
+                    <input type="date" id="to" name="to" required />
+                </div>
+                <div class="form-group">
+                    <label for="workshop">Workshop:</label>
+                    <select id="workshop" name="did" required>
+                        <option value="" disabled selected>----Select Workshop----</option>
+                        <c:forEach items="${requestScope.depts}" var="d">
+                            <option value="${d.id}">${d.name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <table>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Estimate</th>
+                    </tr>
+                    <c:forEach items="${requestScope.products}" var="p">
+                        <tr>
+                            <td>${p.name}<input type="hidden" value="${p.id}" name="pid"/></td>
+                            <td><input type="text" name="quantity${p.id}"/></td>
+                            <td><input type="text" name="cost${p.id}"/></td>
+                        </tr>   
+                    </c:forEach>
+                </table>
+                <input type="submit" value="Save"/>
+            </form>       
+        </div>  
+        <script>
+            const fromDate = document.getElementById('from');
+            const toDate = document.getElementById('to');
+
+            function validateDates() {
+                if (toDate.value && fromDate.value) {
+                    if (new Date(toDate.value) < new Date(fromDate.value)) {
+                        alert('"To" date must be later than the "From" date.');
+                        toDate.value = ''; // Clear the "to" date
+                    }
+                }
+            }
+
+            fromDate.addEventListener('change', validateDates);
+            toDate.addEventListener('change', validateDates);
+        </script>
     </body>
 </html>
