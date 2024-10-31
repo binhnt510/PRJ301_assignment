@@ -99,101 +99,76 @@
             .logout:hover {
                 background-color: #ff0000;
             }
-            .container {
-                width: 90%;               /* Co giãn dựa trên màn hình */
-                max-width: 1000px;         /* Giới hạn độ rộng tối đa */
-                margin: 30px auto;
-                padding: 20px;
-                background-color: #f0f8ff;
-                border: 1px solid #1e90ff;
-                border-radius: 8px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                font-family: Arial, sans-serif;
-            }
+            h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 30px;
+}
+#attendance{
+    font-size: 20px;
+}
+#attendance select{
+    font-size: 20px;
+}
+#attendance input{
+    font-size: 20px;
+}
+form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto; /* Căn giữa form */
+  max-width: 90%; /* Giới hạn chiều rộng form tối đa 90% */
+}
 
-            /* Tiêu đề chính */
-            .container h1 {
-                color: #1e90ff;
-                text-align: center;
-                font-size: 24px;
-                margin-bottom: 15px;
-            }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  table-layout: fixed; /* Chia đều chiều rộng các cột */
+}
 
-            /* Form chung */
-            form {
-                margin-bottom: 20px;
-            }
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+  word-wrap: break-word; /* Cho phép ngắt dòng trong ô */
+}
 
-            /* Bảng */
-            .container table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 10px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            }
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
 
-            .container th, .container td {
-                padding: 10px;
-                border: 1px solid #ddd;
-                text-align: center;
-            }
+input[type="date"], select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
 
-            .container th {
-                background-color: #1e90ff;
-                color: white;
-                font-weight: bold;
-                font-size: 16px;
-            }
+input[type="submit"] {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
 
-            .container td {
-                background-color: #f9f9f9;
-                font-size: 15px;
-            }
+input[type="submit"]:hover {
+  background-color: #2980b9;
+}
 
-            /* Input và Select */
-            .container input[type="date"],
-            .container select,
-            .container input[type="number"] {
-                width: 95%;
-                padding: 8px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                font-size: 14px;
-                background-color: #f5f5f5;
-                margin-top: 5px;
-            }
-
-            /* Nút gửi */
-            .container input[type="submit"] {
-                background-color: #1e90ff;
-                color: white;
-                padding: 10px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 15px;
-                width: 100%;
-                transition: background-color 0.3s ease;
-            }
-
-            .container input[type="submit"]:hover {
-                background-color: #1c86ee;
-            }
-
-            /* Dòng chữ nổi bật */
-            .highlight {
-                color: red;
-                font-weight: bold;
-            }
-
-            /* Thông báo */
-            .report-message {
-                color: red;
-                text-align: center;
-                font-size: 16px;
-                font-weight: bold;
-                margin-top: 20px;
-            }
+.report-message {
+  text-align: center;
+  margin-top: 20px;
+  color: red;
+}
         </style>
     </head>
     <body>
@@ -212,31 +187,33 @@
                 <a class="logout" href="http://localhost:9999/ta.com/logout"><i class="fas fa-sign-out-alt"></i></a>
             </div>
         </div>
-        <div class="container">
+        <div>
             <h1>Attendance Management</h1>
             <!-- Form 1: Search Form -->
             <form action="attendance" method="post">
                 <input type="hidden" name="action" value="search"/>
-                <table>
+                <table id="attendance">
                     <tr>
-                        <td>Date:</td>
+                        <td>Date</td>
                         <td><input type="date" name="date" required value="${searchDate}"/></td>
                     </tr>
                     <tr>
-                        <td>Department:</td>
+                        <td>Department <span style="color: red; font-size: 17px; text-align: center"> (Please select your correct department)</span></td>
                         <td>
 
-                            <select name="departmentId">
+                            <select name="departmentId" required>
+                                <option value="" disabled selected>----Select Workshop----</option>
                                 <c:forEach items="${requestScope.depts}" var="d">
                                     <option value="${d.id}">${d.name}</option>
                                 </c:forEach>
                             </select> 
                         </td>
+                        
                     </tr>
                     <tr>
-                        <td>Shift:</td>
+                        <td>Shift<span style="color: red; font-size: 17px; text-align: center"> (Please select your correct shift number)</span></td>
                         <td>
-                            <select name="shift">
+                            <select name="shift" required>
                                 <option value="K1">K1</option>
                                 <option value="K2">K2</option>
                                 <option value="K3">K3</option>
@@ -261,7 +238,7 @@
                 <form action="attendance" method="post">
                     <input type="hidden" name="action" value="check"/>
                     <h1>Attendance at <span style="color: red"> ${requestScope.depname}</span> -- <span style="color: red" id="dateDisplay">${searchDate}</span> -- Production shift: <span style="color: red">${searchShift}</span> </h1>
-                    <table border="1">
+                    <table id="table2" border="1">
                         <thead>
                             <tr>
                                 <th>Employee ID</th>

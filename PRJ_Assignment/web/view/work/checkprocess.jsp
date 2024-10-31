@@ -26,7 +26,7 @@
 
             body {
                 background-color: #f5f5f5;
-                padding: 20px;
+                
                 min-height: 100vh;
             }
             .header {

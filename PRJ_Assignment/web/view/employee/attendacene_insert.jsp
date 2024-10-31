@@ -10,7 +10,123 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Attendance Insert</title>
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background-color: #f5f5f5;
+                margin: 0;
+                padding: 20px;
+                color: #333;
+            }
+
+            form {
+                background-color: white;
+                padding: 30px;
+                border-radius: 15px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                max-width: 90%;
+                margin: 20px auto;
+            }
+
+            h1 {
+                text-align: center;
+                color: #2c3e50;
+                font-size: 28px;
+                margin-bottom: 30px;
+                padding-bottom: 15px;
+                border-bottom: 2px solid #eee;
+            }
+
+            /* Styling cho span trong h1 */
+            h1 span {
+                color: #e74c3c;
+                font-weight: 600;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 25px 0;
+                background-color: white;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            table input {
+                box-sizing: border-box;
+            }
+            th {
+                background-color: #34495e;
+                color: white;
+                font-weight: 600;
+                padding: 15px;
+                text-align: left;
+                font-size: 16px;
+            }
+
+            td {
+                padding: 12px 15px;
+                border-bottom: 1px solid #ddd;
+                font-size: 15px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            tr:hover {
+                background-color: #f5f5f5;
+                transition: background-color 0.3s ease;
+            }
+
+            /* Styling cho input fields */
+            input[type="number"],
+            input[type="text"] {
+                width: 100%;
+                padding: 8px 12px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 15px;
+                transition: border-color 0.3s ease;
+            }
+
+            input[type="number"]:focus,
+            input[type="text"]:focus {
+                border-color: #3498db;
+                outline: none;
+                box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+            }
+
+            /* Styling cho readonly inputs */
+            input[readonly] {
+                background-color: #f8f9fa;
+                border: 1px solid #ddd;
+                cursor: not-allowed;
+            }
+
+            /* Styling cho submit button */
+            input[type="submit"] {
+                background-color: #2ecc71;
+                color: white;
+                padding: 12px 25px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: 600;
+                margin-top: 20px;
+                transition: background-color 0.3s ease;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            input[type="submit"]:hover {
+                background-color: #27ae60;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+            }
+        </style>
     </head>
     <body>
         <c:if test="${not empty details}">
@@ -48,14 +164,14 @@
                         <td>${d.orderedQuantity}</td>
                         <td>
                             <input type="number" name="actualQuantity" min="0"
-                                   value="${d.actualQuantity}" required/>
+                                   required/>
                         </td>
                         <c:choose>
                             <c:when test="${d.rowSpan > 0}">
                                 <td rowspan="${d.rowSpan}">
                                     <!-- Chỉ nhập alpha một lần cho nhóm trùng -->
                                     <input type="number" step="0.1" name="alpha_${d.employeeId}" 
-                                           min="0" value="${d.alpha}" required
+                                           min="0" required
                                            onchange="updateAlpha(this.value, '${d.employeeId}', ${d.rowSpan})"/>
 
                                     <!-- Hidden inputs để đồng bộ giá trị alpha cho các hàng trong nhóm -->
@@ -69,7 +185,7 @@
                             </c:when>
                         </c:choose>
                         <td>
-                            <input type="text" name="note" value="${d.note}"/>
+                            <textarea name="note" class="note-input" rows="1" oninput="autoResize(this)">${d.note}</textarea>
                         </td>
                         <td>
                             <input type="text" name="username" readonly 
@@ -85,6 +201,21 @@
             </form>
         </c:if>
         <script>
+            function autoResize(textarea) {
+                textarea.style.height = "auto";
+                textarea.style.height = textarea.scrollHeight + "px";
+            }
+
+// Xử lý form trước khi submit
+            document.querySelector('form').addEventListener('submit', function (event) {
+                // Lấy tất cả các textarea với class "note-input"
+                const noteInputs = document.querySelectorAll('.note-input');
+
+                // Duyệt qua từng textarea và thay thế dấu xuống dòng bằng dấu cách
+                noteInputs.forEach(input => {
+                    input.value = input.value.replace(/\n/g, '');
+                });
+            });
             function updateAlpha(value, employeeId, rowSpan) {
                 // Cập nhật tất cả các hidden input của alpha cho cùng một nhóm employee
                 for (let i = 0; i < rowSpan; i++) {
@@ -97,6 +228,8 @@
                 if (result)
                 {
                     document.getElementById("submit").submit();
+                } else {
+                    event.preventDefault(); // Ngăn không cho form submit khi chọn "Cancel"
                 }
             }
             // Ví dụ biến searchDate có giá trị yyyy-mm-dd

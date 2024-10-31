@@ -190,7 +190,7 @@
                 }
 
                 if (total !== requiredQuantity) {
-                    alert('Tổng số phải bằng ' + requiredQuantity + '. Hiện tại tổng là ' + total + '.');
+                    alert('The total must equal ' + requiredQuantity + '. Currently, the total is ' + total + '.');
                     return false;
                 }
                 return true;
