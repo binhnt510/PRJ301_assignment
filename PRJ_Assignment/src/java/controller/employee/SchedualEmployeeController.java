@@ -48,7 +48,7 @@ public class SchedualEmployeeController extends HttpServlet {
         request.setAttribute("schedule", selectedSchedule);
         request.setAttribute("employees", employees);
         session.setAttribute("insertPageVisited", true);
-        request.getRequestDispatcher("../view/work/createschedual.jsp").forward(request, response);
+        request.getRequestDispatcher("../view/work/createschedulemployee.jsp").forward(request, response);
     }
 
     @Override
