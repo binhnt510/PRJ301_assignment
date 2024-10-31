@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  *
  * @author admin
  */
-public class AttendanceReportDBContext extends DBContext<AttendanceReport> {
+public class AttendanceReportForSalaryDBContext extends DBContext<AttendanceReport> {
 
     @Override
     public void insert(AttendanceReport entity) {
@@ -93,7 +93,7 @@ public class AttendanceReportDBContext extends DBContext<AttendanceReport> {
 
             while (rs.next()) {
                 AttendanceReport report = new AttendanceReport();
-                report.setEmployeeName(rs.getString("EmployeeName")); // Thay đổi từ getInt sang getString
+                report.setEmployeeName(rs.getNString("EmployeeName")); // Thay đổi từ getInt sang getString
                 report.setSalary(rs.getDouble("Salary"));
                 report.setEmployeeId(rs.getInt("EmployeeID"));
                 for (int i = 1; i <= 31; i++) {
@@ -103,7 +103,7 @@ public class AttendanceReportDBContext extends DBContext<AttendanceReport> {
                 reports.add(report);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(AttendanceReportDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AttendanceReportForSalaryDBContext.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 if (stm != null) {
@@ -113,7 +113,7 @@ public class AttendanceReportDBContext extends DBContext<AttendanceReport> {
                     connection.close();
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(AttendanceReportDBContext.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AttendanceReportForSalaryDBContext.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return reports;
