@@ -105,7 +105,7 @@ public class UserDBContext extends DBContext<User> {
                 + "	INNER JOIN Feature f ON f.FeatureID = rf.FeatureID\n"
                 + "WHERE u.UserName = ? and f.show='1'\n"
                 +"and url not like'/home'\n"
-                + "ORDER BY r.RoleID, f.FeatureID ASC";
+                + "ORDER BY f.url desc";
         try {
             stm = connection.prepareStatement(sql);
             stm.setString(1, username);
