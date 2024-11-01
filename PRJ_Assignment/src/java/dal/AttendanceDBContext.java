@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import java.sql.*;
 
 public class AttendanceDBContext extends DBContext<AttendenceWorker> {
-
+    // dung AttendanceDetail de lay thong tín
     public ArrayList<AttendanceDetail> getAttendanceDetails(Date date, int departmentId, String shift) {
         ArrayList<AttendanceDetail> details = new ArrayList<>();
         PreparedStatement stm = null;
