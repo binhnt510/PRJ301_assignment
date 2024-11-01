@@ -100,75 +100,75 @@
                 background-color: #ff0000;
             }
             h1 {
-  color: #2c3e50;
-  text-align: center;
-  margin-bottom: 30px;
-}
-#attendance{
-    font-size: 20px;
-}
-#attendance select{
-    font-size: 20px;
-}
-#attendance input{
-    font-size: 20px;
-}
-form {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin: 0 auto; /* Căn giữa form */
-  max-width: 90%; /* Giới hạn chiều rộng form tối đa 90% */
-}
+                color: #2c3e50;
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            #attendance{
+                font-size: 20px;
+            }
+            #attendance select{
+                font-size: 20px;
+            }
+            #attendance input{
+                font-size: 20px;
+            }
+            form {
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                margin: 0 auto; /* Căn giữa form */
+                max-width: 90%; /* Giới hạn chiều rộng form tối đa 90% */
+            }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  table-layout: fixed; /* Chia đều chiều rộng các cột */
-}
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+                table-layout: fixed; /* Chia đều chiều rộng các cột */
+            }
 
-th, td {
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: left;
-  word-wrap: break-word; /* Cho phép ngắt dòng trong ô */
-}
+            th, td {
+                padding: 10px;
+                border: 1px solid #ddd;
+                text-align: left;
+                word-wrap: break-word; /* Cho phép ngắt dòng trong ô */
+            }
 
-th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-}
+            th {
+                background-color: #f2f2f2;
+                font-weight: bold;
+            }
 
-input[type="date"], select {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
+            input[type="date"], select {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 10px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
 
-input[type="submit"] {
-  background-color: #3498db;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+            input[type="submit"] {
+                background-color: #3498db;
+                color: white;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
 
-input[type="submit"]:hover {
-  background-color: #2980b9;
-}
+            input[type="submit"]:hover {
+                background-color: #2980b9;
+            }
 
-.report-message {
-  text-align: center;
-  margin-top: 20px;
-  color: red;
-}
+            .report-message {
+                text-align: center;
+                margin-top: 20px;
+                color: red;
+            }
         </style>
     </head>
     <body>
@@ -208,7 +208,7 @@ input[type="submit"]:hover {
                                 </c:forEach>
                             </select> 
                         </td>
-                        
+
                     </tr>
                     <tr>
                         <td>Shift<span style="color: red; font-size: 17px; text-align: center"> (Please select your correct shift number)</span></td>
@@ -267,8 +267,18 @@ input[type="submit"]:hover {
                                     <td>${d.productName}</td>
                                     <td>${d.orderedQuantity}</td>
                                     <td>${d.actualQuantity}</td>
-                                    <td>${d.alpha}</td>
-                                    <td>${d.note}</td>
+                                    <c:choose>
+                                        <c:when test="${d.rowSpan > 0}">
+                                            <td rowspan="${d.rowSpan}">${d.alpha}</td>
+                                            <td rowspan="${d.rowSpan}">${d.note}</td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <!-- Bỏ style="display: none" để tránh lỗi layout -->
+                                            <!-- Không cần tạo các ô TD cho những hàng đã được gộp -->
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    
                                     <td>${d.createBy}</td>
                                 </tr>
                             </c:forEach>
