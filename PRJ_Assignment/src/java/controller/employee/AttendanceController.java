@@ -61,7 +61,7 @@ public class AttendanceController extends BaseRBACController {
             ArrayList<AttendanceDetail> details = db.getAttendanceDetails(date, departmentId, shift);
             int count = 0;
             for (AttendanceDetail detail : details) {
-                if (detail.getCreateBy() != null) {
+                if (detail.getCreateBy()!= null) {
                     count++;
                 }
 
@@ -92,7 +92,7 @@ public class AttendanceController extends BaseRBACController {
             if (details.isEmpty()) {
                 resp.getWriter().println("<h1 style=\"color: red\">Nothing</h1>");
             } else {
-                if (count != 0) {
+                if (count !=0) {
                     req.getRequestDispatcher("../view/employee/attendance_report_exist.jsp").forward(req, resp);
                 } else {
                     req.setAttribute("details", details);
@@ -153,6 +153,13 @@ public class AttendanceController extends BaseRBACController {
                     currentDetail.setRowSpan(rowSpanCount);
                 }
             }
+            int count = 0;
+            for (AttendanceDetail detail : details) {
+                if (detail.getCreateBy()!= null) {
+                    count++;
+                }
+
+            }
             String depname = "";
             for (Department department : depts) {
                 if (departmentId == department.getId()) {
@@ -162,8 +169,9 @@ public class AttendanceController extends BaseRBACController {
             }
             req.setAttribute("depname", depname);
 
-            if (details.isEmpty()) {
+            if (count==0) {
                 String report = "Nothing";
+                req.setAttribute("searchDate", date);
                 req.setAttribute("report", report);
                 req.getRequestDispatcher("../view/employee/attendance_select.jsp").forward(req, resp);
             } else {
