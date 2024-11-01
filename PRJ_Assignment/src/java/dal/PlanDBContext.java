@@ -99,7 +99,7 @@ public class PlanDBContext extends DBContext<Plan> {
         ArrayList<Plan> pls = new ArrayList<>();
         PreparedStatement command = null;
         try {
-            String sql = "select PlanID,PlanName from [Plan]";
+            String sql = "select PlanID,PlanName from [Plan] order by PlanID desc";
 
             command = connection.prepareStatement(sql);
             ResultSet rs = command.executeQuery();
