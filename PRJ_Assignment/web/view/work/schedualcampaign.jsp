@@ -83,7 +83,7 @@
 
             /* Nút gửi */
             .container input[type="submit"] {
-                background-color: #85b0fd;
+                background-color: #27ae60;
                 color: white;
                 padding: 10px 20px;
                 border: none;
@@ -94,7 +94,7 @@
             }
 
             .container input[type="submit"]:hover {
-                background-color: #1c7eed;
+                background-color: #219a52;
             }
 
             /* Thông báo */
@@ -109,6 +109,25 @@
             .submit-container {
                 margin-top: 20px;
                 text-align: center;
+            }
+            a.back {
+                margin-left: 40px;
+                background-color: #2980b9; /* Màu của thẻ a */
+                color: white;
+                padding: 12px 24px;
+                border-radius: 4px;
+                text-decoration: none; /* Bỏ gạch chân */
+                font-size: 16px;
+                height: 14.3672px;
+                transform: translate(0, 2.125px);
+                width: 28.0625px;
+                transform: translate(0px, 2.5px);
+                display: inline-block;
+                transition: background-color 0.3s ease;
+            }
+
+            a.back:hover {
+                background-color: #1f639a; /* Màu khi hover */
             }
         </style>
 
@@ -134,7 +153,7 @@
 
             <!-- Đặt đoạn script ở đây -->
             <script>
-            requiredQuantity = parseInt('${quantity}', 10);
+                requiredQuantity = parseInt('${quantity}', 10);
             </script>
 
 
@@ -169,6 +188,7 @@
                     </table>
                     <div style="margin-top: 20px;">
                         <input type="submit" value="Save">
+                        <a href="javascript:window.history.back();" class="back">Back</a>
                     </div>
                 </form>
             </c:if>

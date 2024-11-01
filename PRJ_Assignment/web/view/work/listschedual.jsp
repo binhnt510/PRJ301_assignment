@@ -88,7 +88,7 @@
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 background-color: #f5f5f5;
                 margin: 0;
-                padding: 20px;
+                
             }
 
             /* Department selection styling */
@@ -99,7 +99,9 @@
                 border-radius: 8px;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
-
+            .infor{
+                padding: 20px;
+            }
             .selectdept form {
                 display: flex;
                 align-items: center;
@@ -194,46 +196,48 @@
                 <a class="logout" href="http://localhost:9999/ta.com/logout"><i class="fas fa-sign-out-alt"></i></a>
             </div>
         </div>
-        <div class="selectdept">
-            <form id="deptForm" action="listschedulecampaign" method="GET">
-                Department: 
-                <select name="deptId" onchange="submitForm()">
-                    <option value="">Select Department</option>
-                    <c:forEach items="${depts}" var="d">
-                        <option value="${d.id}" ${param.deptId eq d.id ? 'selected' : ''}>${d.name}</option>
-                    </c:forEach>
-                </select>
-            </form>
-        </div>
-        <div class="show">        
-            <c:if test="${scheduals != null}">
-                <table border="1">
-                    <tr>
-                        <th>Plan Name</th>
-                        <th>Date</th>
-                        <th>Department Name</th>
-                        <th>Shift</th>
-                        <th>Product Name</th>
-                        <th>Quantity</th>
-                        <th>Action</th>
-                    </tr>
-                    <c:forEach items="${scheduals}" var="s">
+                <div class="infor">
+            <div class="selectdept">
+                <form id="deptForm" action="listschedulecampaign" method="GET">
+                    Department: 
+                    <select name="deptId" onchange="submitForm()">
+                        <option value="">Select Department</option>
+                        <c:forEach items="${depts}" var="d">
+                            <option value="${d.id}" ${param.deptId eq d.id ? 'selected' : ''}>${d.name}</option>
+                        </c:forEach>
+                    </select>
+                </form>
+            </div>
+            <div class="show">        
+                <c:if test="${scheduals != null}">
+                    <table border="1">
                         <tr>
-                            <td>${s.planName}</td>
-                            <td>${s.date}</td>
-                            <td>${s.departmentName}</td>
-                            <td>${s.shift}</td>
-                            <td>${s.productName}</td>
-                            <td>${s.quantity}</td>
-                            <td>
-                                <a href="detailforworker?scId=${s.scID}&deptId=${deptId}&shift=${s.shift}">
-                                    Create SchedualEmployee
-                                </a>
-                            </td>
+                            <th>Plan Name</th>
+                            <th>Date</th>
+                            <th>Department Name</th>
+                            <th>Shift</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
                         </tr>
-                    </c:forEach>
-                </table>
-            </c:if>
+                        <c:forEach items="${scheduals}" var="s">
+                            <tr>
+                                <td>${s.planName}</td>
+                                <td>${s.date}</td>
+                                <td>${s.departmentName}</td>
+                                <td>${s.shift}</td>
+                                <td>${s.productName}</td>
+                                <td>${s.quantity}</td>
+                                <td>
+                                    <a href="detailforworker?scId=${s.scID}&deptId=${deptId}&shift=${s.shift}">
+                                        Create SchedualEmployee
+                                    </a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </c:if>
+            </div>
         </div>
         <script>
             function submitForm() {

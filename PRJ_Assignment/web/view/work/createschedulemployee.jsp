@@ -121,6 +121,7 @@
                 text-decoration: none; /* Bỏ gạch chân */
                 font-size: 16px;
                 height: 19px;
+                margin-left: 40px;
                 transform: translate(0px, 2.5px);
                 display: inline-block;
                 transition: background-color 0.3s ease;

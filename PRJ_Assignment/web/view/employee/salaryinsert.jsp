@@ -313,7 +313,7 @@
                 const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
 
                 if (today.getDate() !== lastDayOfMonth) {
-                    alert("Bạn chỉ có thể lưu tiền lương vào ngày cuối tháng!");
+                    alert("Please note that salaries can only be saved on the last day of the month.");
                     return false;
                 }
                 return true;

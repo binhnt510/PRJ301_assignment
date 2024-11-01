@@ -226,6 +226,7 @@
             <form action="checkprocess" method="POST">
                 <label for="planName">Plan Name:</label>
                 <select name="planName" required id="planName" >
+                    <option value="" disabled selected>----Select Plan Name----</option>
                     <c:forEach items="${requestScope.planName}" var="p">
                         <option value="${p.name}">${p.name}</option>
                     </c:forEach>
