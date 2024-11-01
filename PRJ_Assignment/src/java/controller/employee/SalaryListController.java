@@ -4,8 +4,10 @@
  */
 package controller.employee;
 
+import controller.accesscontrol.BaseRBACController;
 import dal.SalaryWorkerDBContext;
 import entity.SalaryDetail;
+import entity.accesscontrol.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,15 +15,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SalaryListController extends HttpServlet {
+public class SalaryListController extends BaseRBACController {
     
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("../view/employee/salarylist.jsp").forward(req, resp);
+    protected void doAuthorizedGet(HttpServletRequest request, HttpServletResponse response, User account)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("../view/employee/salarylist.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doAuthorizedPost(HttpServletRequest req, HttpServletResponse resp, User account)
+            throws ServletException, IOException {
         String monthYear = req.getParameter("monthYear");
         
         if(monthYear != null && !monthYear.trim().isEmpty()) {

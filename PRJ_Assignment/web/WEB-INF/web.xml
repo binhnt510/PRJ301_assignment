@@ -34,7 +34,7 @@
     </servlet>
     <servlet>
         <servlet-name>schedulecampain</servlet-name>
-        <servlet-class>controller.employee.ScheduleController</servlet-class>
+        <servlet-class>controller.employee.InsertScheduleController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>listsalary</servlet-name>
@@ -42,7 +42,7 @@
     </servlet>
     <servlet>
         <servlet-name>SchedualCampaignController</servlet-name>
-        <servlet-class>controller.employee.SchedualCampaignController</servlet-class>
+        <servlet-class>controller.employee.ListSchedualCampaignController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>SchedualEmployeeController</servlet-name>

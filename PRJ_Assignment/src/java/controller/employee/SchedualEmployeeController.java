@@ -4,6 +4,7 @@
  */
 package controller.employee;
 
+import controller.accesscontrol.BaseRBACController;
 import dal.SchedualCampaignDBContext;
 import dal.SchedualCmapainDetailDBContext;
 import dal.SchedualEmployeeDBContext;
@@ -11,6 +12,7 @@ import entity.Employee;
 
 import entity.SchedualCampaignDetail;
 import entity.SchedualEmployee;
+import entity.accesscontrol.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,10 +22,10 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SchedualEmployeeController extends HttpServlet {
+public class SchedualEmployeeController extends BaseRBACController {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doAuthorizedGet(HttpServletRequest request, HttpServletResponse response, User account)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         int scId = Integer.parseInt(request.getParameter("scId"));
@@ -52,7 +54,7 @@ public class SchedualEmployeeController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doAuthorizedPost(HttpServletRequest request, HttpServletResponse response, User account)
             throws ServletException, IOException {
         int scId = Integer.parseInt(request.getParameter("scId"));
         String[] employeeIds = request.getParameterValues("employeeIds");
