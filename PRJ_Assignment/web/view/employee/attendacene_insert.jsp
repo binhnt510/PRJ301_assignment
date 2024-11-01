@@ -175,7 +175,7 @@
                                            name="alpha_display" 
                                            min="0" 
                                            required
-                                           placeholder="Nhập alpha"
+                                           placeholder="Input alpha"
                                            onchange="updateGroupAlpha(this, ${d.rowSpan})"/>
 
                                     <!-- Hidden inputs - lưu alpha cho mỗi row -->
@@ -186,11 +186,27 @@
                                                class="hidden-alpha-${d.employeeId}"/>
                                     </c:forEach>
                                 </td>
+                                <!-- Cột note với textarea -->
+                                <td rowspan="${d.rowSpan}">
+                                    <!-- Textarea cho note chung -->
+                                    <textarea name="note_display" 
+                                              rows="1" 
+                                              class="note-input"
+                                              placeholder="Input note"
+                                              oninput="autoResize(this)"
+                                              onchange="updateGroupNote(this, ${d.rowSpan})">${d.note}</textarea>
+
+                                    <!-- Hidden inputs cho note -->
+                                    <c:forEach var="i" begin="0" end="${d.rowSpan - 1}">
+                                        <input type="hidden" 
+                                               name="note" 
+                                               value=""
+                                               class="hidden-note-${d.employeeId}"/>
+                                    </c:forEach>
+                                </td>
                             </c:when>
                         </c:choose>
-                        <td>
-                            <textarea name="note" class="note-input" rows="1" oninput="autoResize(this)">${d.note}</textarea>
-                        </td>
+
                         <td>
                             <input type="text" name="username" readonly 
                                    style="background-color: gainsboro" 
@@ -210,7 +226,7 @@
                 textarea.style.height = textarea.scrollHeight + "px";
             }
 
-// Xử lý form trước khi submit
+            // Xử lý form trước khi submit
             document.querySelector('form').addEventListener('submit', function (event) {
                 // Lấy tất cả các textarea với class "note-input"
                 const noteInputs = document.querySelectorAll('.note-input');
@@ -220,6 +236,19 @@
                     input.value = input.value.replace(/\n/g, ' ');
                 });
             });
+            function updateGroupNote(inputElement, rowSpan) {
+                // Lấy giá trị từ textarea
+                const value = inputElement.value || "";
+
+                // Tìm tất cả input hidden trong cùng td với textarea
+                const parentTd = inputElement.closest('td');
+                const hiddenInputs = parentTd.querySelectorAll('input[type="hidden"]');
+
+                // Cập nhật giá trị cho tất cả input hidden
+                hiddenInputs.forEach(hidden => {
+                    hidden.value = value;
+                });
+            }
             function updateGroupAlpha(inputElement, rowSpan) {
                 // Lấy giá trị từ input
                 const value = inputElement.value || "0";
