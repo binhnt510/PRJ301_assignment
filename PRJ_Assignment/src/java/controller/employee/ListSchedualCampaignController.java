@@ -5,10 +5,12 @@
 
 package controller.employee;
 
+import controller.accesscontrol.BaseRBACController;
 import dal.DepartmentDBContext;
 import dal.SchedualCmapainDetailDBContext;
 import entity.Department;
 import entity.SchedualCampaignDetail;
+import entity.accesscontrol.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,10 +20,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class SchedualCampaignController extends HttpServlet {
+public class ListSchedualCampaignController extends BaseRBACController {
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doAuthorizedGet(HttpServletRequest request, HttpServletResponse response, User account)
             throws ServletException, IOException {
         DepartmentDBContext deptDB = new DepartmentDBContext();
         ArrayList<Department> depts = deptDB.get("WS");
@@ -36,5 +38,9 @@ public class SchedualCampaignController extends HttpServlet {
         }
         
         request.getRequestDispatcher("../view/work/listschedual.jsp").forward(request, response);
+    }
+    @Override
+    protected void doAuthorizedPost(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException {
+        super.doPost(req, resp);
     }
 }

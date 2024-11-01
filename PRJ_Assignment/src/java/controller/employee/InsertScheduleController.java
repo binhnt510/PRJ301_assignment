@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
  *
  * @author admin
  */
-public class ScheduleController extends BaseRBACController {
+public class InsertScheduleController extends BaseRBACController {
 
     @Override
     protected void doAuthorizedGet(HttpServletRequest request, HttpServletResponse response, User account)
@@ -94,7 +94,7 @@ public class ScheduleController extends BaseRBACController {
         ArrayList<SchedualCampaign> schedules = new ArrayList<>();
         
         for (int i = 0; i < dates.length; i++) {
-            if (k1Values[i] != null && !k1Values[i].isEmpty()) {
+            if (k1Values[i] != null && !k1Values[i].isEmpty()&& !k1Values[i].equals("0")) {
                 SchedualCampaign sc = new SchedualCampaign();
                 PlanCampain p = new PlanCampain();
                 p.setId(planCampnID);
@@ -105,7 +105,7 @@ public class ScheduleController extends BaseRBACController {
                 schedules.add(sc);
             }
 
-            if (k2Values[i] != null && !k2Values[i].isEmpty()) {
+            if (k2Values[i] != null && !k2Values[i].isEmpty()&& !k2Values[i].equals("0")) {
                 SchedualCampaign sc = new SchedualCampaign();
                 PlanCampain p = new PlanCampain();
                 p.setId(planCampnID);
@@ -116,7 +116,7 @@ public class ScheduleController extends BaseRBACController {
                 schedules.add(sc);
             }
 
-            if (k3Values[i] != null && !k3Values[i].isEmpty()) {
+            if (k3Values[i] != null && !k3Values[i].isEmpty()&& !k3Values[i].equals("0")) {
                 SchedualCampaign sc = new SchedualCampaign();
                 PlanCampain p = new PlanCampain();
                 p.setId(planCampnID);
