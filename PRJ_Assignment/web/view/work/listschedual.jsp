@@ -227,7 +227,7 @@
                             <tr>
                                 <td>${s.planName}</td>
                                 <td>${s.date}</td>
-                                <td>${s.departmentName}</td>
+                                <td style="color: red;">${s.departmentName}</td>
                                 <td>${s.shift}</td>
                                 <td>${s.productName}</td>
                                 <td>${s.quantity}</td>

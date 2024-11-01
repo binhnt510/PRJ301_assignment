@@ -12,7 +12,7 @@
                 font-family: Arial, sans-serif;
 
                 margin: 0 auto;
-                
+
                 background-color: #f5f5f5;
             }
             .header {
@@ -231,6 +231,21 @@
                 margin-top: 20px;
                 justify-content: flex-start;
             }
+            .no-data {
+                text-align: center;
+                padding: 30px;
+                color: #666;
+                background-color: #ccffcc;
+                border-radius: 8px;
+                margin-top: 20px;
+                font-size: 20px;
+            }
+            .choosedate{
+                font-size: 20px;
+            }
+            .choosedate input{
+                font-size: 17px;
+            }
         </style>
     </head>
     <body>
@@ -249,7 +264,7 @@
                 <a class="logout" href="http://localhost:9999/ta.com/logout"><i class="fas fa-sign-out-alt"></i></a>
             </div>
         </div>
-        <form action="salaryworker" method="post">
+        <form action="salaryworker" method="post" class="choosedate">
             Date: <input type="month" name="monthyear" value="${selectedDate}" required>
             <input type="submit" value="List">
         </form>
@@ -300,6 +315,11 @@
                         <input type="submit" id="saveButton" value="Save Salaries" <c:if test="${action != 'calculate'}">disabled</c:if>>
                         </form>
                     </div>
+            </c:if>
+            <c:if test="${empty reports}">
+                <div class="no-data">
+                    No attendance records found for the selected month.
+                </div>
             </c:if>
         </c:if>
         <script>
