@@ -169,17 +169,21 @@
                         <c:choose>
                             <c:when test="${d.rowSpan > 0}">
                                 <td rowspan="${d.rowSpan}">
-                                    <!-- Chỉ nhập alpha một lần cho nhóm trùng -->
-                                    <input type="number" step="0.1" name="alpha_${d.employeeId}" 
-                                           min="0" required
-                                           onchange="updateAlpha(this.value, '${d.employeeId}', ${d.rowSpan})"/>
+                                    <!-- Input chính để nhập alpha cho nhóm -->
+                                    <input type="number" 
+                                           step="0.1" 
+                                           name="alpha_display" 
+                                           min="0" 
+                                           required
+                                           placeholder="Nhập alpha"
+                                           onchange="updateGroupAlpha(this, ${d.rowSpan})"/>
 
-                                    <!-- Hidden inputs để đồng bộ giá trị alpha cho các hàng trong nhóm -->
-                                    <c:forEach begin="0" end="${d.rowSpan - 1}" varStatus="status">
+                                    <!-- Hidden inputs - lưu alpha cho mỗi row -->
+                                    <c:forEach var="i" begin="0" end="${d.rowSpan - 1}">
                                         <input type="hidden" 
                                                name="alpha" 
-                                               id="alpha_hidden_${d.employeeId}_${status.index}"
-                                               value="${d.alpha}"/>
+                                               value="0"
+                                               class="hidden-alpha-${d.employeeId}"/>
                                     </c:forEach>
                                 </td>
                             </c:when>
@@ -213,14 +217,24 @@
 
                 // Duyệt qua từng textarea và thay thế dấu xuống dòng bằng dấu cách
                 noteInputs.forEach(input => {
-                    input.value = input.value.replace(/\n/g, '');
+                    input.value = input.value.replace(/\n/g, ' ');
                 });
             });
-            function updateAlpha(value, employeeId, rowSpan) {
-                // Cập nhật tất cả các hidden input của alpha cho cùng một nhóm employee
-                for (let i = 0; i < rowSpan; i++) {
-                    document.getElementById(`alpha_hidden_${employeeId}_${i}`).value = value;
-                }
+            function updateGroupAlpha(inputElement, rowSpan) {
+                // Lấy giá trị từ input
+                const value = inputElement.value || "0";
+
+                // Tìm tất cả input hidden trong cùng td với input chính
+                const parentTd = inputElement.closest('td');
+                const hiddenInputs = parentTd.querySelectorAll('input[type="hidden"]');
+
+                // Cập nhật giá trị cho tất cả input hidden
+                hiddenInputs.forEach(hidden => {
+                    hidden.value = value;
+                });
+
+                // Log để kiểm tra
+                console.log(`Updated ${hiddenInputs.length} alpha values to: ${value}`);
             }
             function sure()
             {
