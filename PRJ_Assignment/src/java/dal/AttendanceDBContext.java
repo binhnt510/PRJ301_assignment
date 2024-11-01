@@ -24,12 +24,12 @@ public class AttendanceDBContext extends DBContext<AttendenceWorker> {
             String sql = "SELECT e.EmployeeID, e.EmployeeName,p.ProductName,se.OrderedQuantity,aw.ActuralQuantity,aw.Alpha,aw.Note,\n"
                     + "aw.CreateBy,se.SchEmpID\n"
                     + "		from SchedualCampaign sc  join SchedualEmployee se on\n"
-                    + "		sc.ScID=se.ScID  left join AttendenceWorker aw\n"
+                    + "		sc.ScID=se.ScID left join AttendenceWorker aw\n"
                     + "		on se.SchEmpID=aw.SchEmpID  join Employee e \n"
                     + "		on e.EmployeeID=se.EmployeeID  join PlanCampain pc\n"
                     + "		on pc.PlanCampnID=sc.PlanCampnID  join [Product] p\n"
                     + "		on p.ProductID=pc.ProductID\n"
-                    + "	where sc.Date=?  and e.DepartmentID=? and sc.Shift=? \n"
+                    + "	where sc.Date=?  and e.DepartmentID=? and sc.[Shift]=? \n"
                     + "order by e.EmployeeID";
 
             stm = connection.prepareStatement(sql);
@@ -48,7 +48,7 @@ public class AttendanceDBContext extends DBContext<AttendenceWorker> {
                 detail.setActualQuantity(rs.getInt("ActuralQuantity"));
                 detail.setAlpha(rs.getDouble("Alpha"));
                 detail.setNote(rs.getString("Note"));
-                detail.setCreateBy(rs.getString("CreateBy"));
+                detail.setCreateBy(rs.getNString("CreateBy"));
                 details.add(detail);
             }
         } catch (SQLException ex) {
