@@ -106,13 +106,15 @@
                 display: flex;
                 align-items: center;
                 gap: 10px;
+                justify-content: center;
+                font-size: 20px;
             }
-
+            
             .selectdept select {
                 padding: 8px 12px;
                 border: 1px solid #ddd;
                 border-radius: 4px;
-                font-size: 14px;
+                font-size: 16px;
                 min-width: 200px;
                 background-color: white;
                 cursor: pointer;
@@ -198,6 +200,7 @@
         </div>
                 <div class="infor">
             <div class="selectdept">
+                <h2 style="color: red; text-align: center;">Please choose the correct workshop that you manage</h2> 
                 <form id="deptForm" action="listschedulecampaign" method="GET">
                     Department: 
                     <select name="deptId" onchange="submitForm()">
