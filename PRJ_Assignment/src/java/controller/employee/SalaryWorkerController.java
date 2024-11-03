@@ -7,7 +7,7 @@ package controller.employee;
 import controller.accesscontrol.BaseRBACController;
 import dal.AttendanceReportForSalaryDBContext;
 import dal.SalaryWorkerDBContext;
-import entity.AttendanceReport;
+import entity.AttendanceReportWorker;
 import entity.Employee;
 import entity.SalaryDetail;
 import entity.accesscontrol.User;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class SalaryWorkerController extends BaseRBACController {
 
-    private double calculateSalary(AttendanceReport report, int daysInMonth) {
+    private double calculateSalary(AttendanceReportWorker report, int daysInMonth) {
         int totalDays = 0;
         for (int i = 1; i <= daysInMonth; i++) {
             String status = report.getStatus(i);
@@ -37,12 +37,12 @@ public class SalaryWorkerController extends BaseRBACController {
         String action = req.getParameter("action");
 
         AttendanceReportForSalaryDBContext db = new AttendanceReportForSalaryDBContext();
-        ArrayList<AttendanceReport> reports = db.list1(date);
-        int daysInMonth = AttendanceReport.getDaysInMonth(date);
+        ArrayList<AttendanceReportWorker> reports = db.list1(date);
+        int daysInMonth = AttendanceReportWorker.getDaysInMonth(date);
         SalaryWorkerDBContext salaryDB = new SalaryWorkerDBContext();
         if ("calculate".equals(action)) {
             // Calculate salaries
-            for (AttendanceReport report : reports) {
+            for (AttendanceReportWorker report : reports) {
                 double calculatedSalary = calculateSalary(report, daysInMonth);
                 report.setCalculatedSalary(calculatedSalary);
             }
@@ -52,7 +52,7 @@ public class SalaryWorkerController extends BaseRBACController {
             HttpSession session = req.getSession();
             Boolean insertPageVisited = (Boolean) session.getAttribute("insertPageVisited");
             if (insertPageVisited != null && insertPageVisited) {
-                for (AttendanceReport report : reports) {
+                for (AttendanceReportWorker report : reports) {
                     double calculatedSalary = calculateSalary(report, daysInMonth);
 
                     SalaryDetail salary = new SalaryDetail();

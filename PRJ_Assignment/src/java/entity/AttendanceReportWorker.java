@@ -4,14 +4,14 @@
  */
 package entity;
 
-public class AttendanceReport {
+public class AttendanceReportWorker {
     private String employeeName;
     private int employeeId;
     private double salary;
     private double calculatedSalary;
     private String[] status;
     
-    public AttendanceReport() {
+    public AttendanceReportWorker() {
         status = new String[32]; // 0-31 for easy indexing
     }
     

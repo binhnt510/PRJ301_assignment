@@ -6,7 +6,7 @@ package dal;
 
 import entity.SalaryDetail;
 import java.util.ArrayList;
-import entity.AttendanceReport;
+import entity.AttendanceReportWorker;
 import entity.Employee;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -4,9 +4,9 @@
  */
 package dal;
 
-import entity.AttendanceReport;
+import entity.AttendanceReportWorker;
 import java.util.ArrayList;
-import entity.AttendanceReport;
+import entity.AttendanceReportWorker;
 import entity.SalaryDetail;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,25 +19,25 @@ import java.util.logging.Logger;
  *
  * @author admin
  */
-public class AttendanceReportForSalaryDBContext extends DBContext<AttendanceReport> {
+public class AttendanceReportForSalaryDBContext extends DBContext<AttendanceReportWorker> {
 
     @Override
-    public void insert(AttendanceReport entity) {
+    public void insert(AttendanceReportWorker entity) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void update(AttendanceReport entity) {
+    public void update(AttendanceReportWorker entity) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void delete(AttendanceReport entity) {
+    public void delete(AttendanceReportWorker entity) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public ArrayList<AttendanceReport> list1(String date) {
-        ArrayList<AttendanceReport> reports = new ArrayList<>();
+    public ArrayList<AttendanceReportWorker> list1(String date) {
+        ArrayList<AttendanceReportWorker> reports = new ArrayList<>();
         PreparedStatement stm = null;
         try {
             String sql = "WITH DailyAttendance AS (\n"
@@ -92,7 +92,7 @@ public class AttendanceReportForSalaryDBContext extends DBContext<AttendanceRepo
             ResultSet rs = stm.executeQuery();
 
             while (rs.next()) {
-                AttendanceReport report = new AttendanceReport();
+                AttendanceReportWorker report = new AttendanceReportWorker();
                 report.setEmployeeName(rs.getNString("EmployeeName")); // Thay đổi từ getInt sang getString
                 report.setSalary(rs.getDouble("Salary"));
                 report.setEmployeeId(rs.getInt("EmployeeID"));
@@ -120,12 +120,12 @@ public class AttendanceReportForSalaryDBContext extends DBContext<AttendanceRepo
     }
 
     @Override
-    public AttendanceReport get(int id) {
+    public AttendanceReportWorker get(int id) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public ArrayList<AttendanceReport> list() {
+    public ArrayList<AttendanceReportWorker> list() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
