@@ -10,7 +10,7 @@
             body {
                 font-family: Arial, sans-serif;
                 margin: 0;
-                padding: 20px;
+                padding-bottom: 20px;
                 background-color: #f0f2f5;
             }
 
