@@ -44,7 +44,7 @@ public abstract class BaseRequiredAuthenticationController extends HttpServlet {
             doGet(req, resp, user);
         }
         else
-            resp.sendError(403,"You do n't have right to access");
+            resp.sendError(403,"You don't have right to access");
     }
     
     protected abstract void doGet(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException;

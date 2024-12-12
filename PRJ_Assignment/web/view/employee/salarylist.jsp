@@ -1,153 +1,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Calculating Salary</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <title>Salary List</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
-                margin: 0;
-                padding-bottom: 20px;
-                background-color: #f0f2f5;
-            }
 
-            .container {
-                max-width: 1200px;
                 margin: 0 auto;
-                padding: 25px;
-                background-color: white;
-                border-radius: 10px;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            }
 
-            h1 {
-                color: #1a3353;
-                text-align: center;
-                margin-bottom: 30px;
-                font-size: 28px;
-            }
-
-            .search-form {
-                text-align: center;
-                margin-bottom: 35px;
-                background-color: #f8f9fa;
-                padding: 20px;
-                border-radius: 8px;
-            }
-
-            .search-form input[type="month"] {
-                padding: 10px 15px;
-                font-size: 16px;
-                border: 2px solid #dce0e4;
-                border-radius: 6px;
-                margin-right: 12px;
-                outline: none;
-                transition: border-color 0.3s;
-            }
-
-            .search-form input[type="month"]:focus {
-                border-color: #4a90e2;
-            }
-
-            .search-form button {
-                padding: 10px 25px;
-                font-size: 16px;
-                background-color: #4a90e2;
-                color: white;
-                border: none;
-                border-radius: 6px;
-                cursor: pointer;
-                transition: all 0.3s;
-                font-weight: 500;
-            }
-
-            .search-form button:hover {
-                background-color: #357abd;
-                transform: translateY(-1px);
-            }
-
-            .search-form button:active {
-                transform: translateY(0);
-            }
-
-            table {
-                width: 100%;
-                border-collapse: separate;
-                border-spacing: 0;
-                margin-top: 20px;
-                border: 1px solid #dce0e4;
-                border-radius: 8px;
-                overflow: hidden;
-            }
-
-            th, td {
-                padding: 15px;
-                text-align: left;
-                border-bottom: 1px solid #dce0e4;
-                border-right: 1px solid #dce0e4;
-            }
-
-            th:last-child, td:last-child {
-                border-right: none;
-            }
-
-            th {
-                background-color: #4a90e2;
-                color: white;
-                font-weight: 500;
-                white-space: nowrap;
-            }
-
-            tr:last-child td {
-                border-bottom: none;
-            }
-
-            tr:nth-child(even) {
-                background-color: #f8f9fa;
-            }
-
-            tr:hover {
-                background-color: #f0f7ff;
-            }
-
-            .no-data {
-                text-align: center;
-                padding: 30px;
-                color: #666;
-                background-color: #f8f9fa;
-                border-radius: 8px;
-                margin-top: 20px;
-                font-size: 16px;
-            }
-
-            .currency {
-                text-align: right;
-
-            }
-
-            @media screen and (max-width: 768px) {
-                .container {
-                    padding: 15px;
-                }
-
-                table {
-                    display: block;
-                    overflow-x: auto;
-                    white-space: nowrap;
-                }
-
-                .search-form input[type="month"] {
-                    width: 100%;
-                    margin-bottom: 10px;
-                    margin-right: 0;
-                }
-
-                .search-form button {
-                    width: 100%;
-                }
+                background-color: #f5f5f5;
             }
             .header {
                 background-color: #1c7eed;
@@ -157,6 +23,7 @@
                 justify-content: space-between;
                 align-items: center;
                 position: relative;
+                margin-bottom: 30px;
             }
             .home-btn {
                 display: flex;
@@ -226,6 +93,159 @@
             .logout:hover {
                 background-color: #ff0000;
             }
+            /* Form styles */
+            form {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+            }
+
+            input[type="month"] {
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                margin-right: 10px;
+            }
+
+            input[type="submit"] {
+                background-color: #4CAF50;
+                color: white;
+                padding: 8px 16px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+            input[type="submit"]:hover {
+                background-color: #45a049;
+            }
+
+            input[type="submit"]:disabled {
+                background-color: #cccccc;
+                cursor: not-allowed;
+            }
+
+            /* Table styles */
+            .table-container {
+                width: 100%;
+                overflow-x: auto;
+                position: relative;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            /* Table styles */
+            table {
+                width: max-content;  /* Để table có thể mở rộng theo nội dung */
+                border-collapse: collapse;
+                background: white;
+            }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 12px;
+                text-align: center;
+                min-width: 20px; /* Chiều rộng tối thiểu cho các cột ngày */
+            }
+
+            /* Cố định 2 cột đầu */
+            th:nth-child(1), th:nth-child(2),
+            td:nth-child(1), td:nth-child(2) {
+                position: sticky;
+                background: white; /* Giữ background khi scroll */
+                z-index: 1;
+            }
+
+            th:nth-child(1), td:nth-child(1) {
+                left: 0;
+                min-width: 100px; /* Chiều rộng cột ID */
+            }
+
+            th:nth-child(2), td:nth-child(2) {
+                left: 100px;  /* Phải bằng width của cột trước */
+                min-width: 150px; /* Chiều rộng cột Name */
+            }
+
+            /* Style cho header */
+            th {
+                background-color: #f8f9fa !important;
+                font-weight: bold;
+            }
+
+            /* Style cho cột cuối (Salary) */
+            th:last-child, td:last-child {
+                min-width: 100px;
+            }
+
+            /* Thêm border shadow cho các cột fixed */
+            td:nth-child(2)::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: -5px;
+                height: 100%;
+                width: 5px;
+                background: linear-gradient(to right, rgba(0,0,0,0.1), transparent);
+            }
+
+            th {
+                background-color: #f8f9fa;
+                color: #333;
+                font-weight: bold;
+                position: sticky;
+                top: 0;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f8f9fa;
+            }
+
+            tr:hover {
+                background-color: #f5f5f5;
+            }
+
+            /* Message styles */
+            div[style*="color: green"] {
+                background-color: #d4edda;
+                border-color: #c3e6cb;
+                color: #155724;
+                padding: 15px;
+                border-radius: 4px;
+                margin-bottom: 20px;
+            }
+
+            /* Salary column styles */
+            .salary-column {
+                font-weight: bold;
+                color: #28a745;
+            }
+
+            /* Button container styles */
+            .button-container {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+                justify-content: flex-start;
+            }
+            .no-data {
+                text-align: center;
+                padding: 30px;
+                color: #666;
+                background-color: #ccffcc;
+                border-radius: 8px;
+                margin-top: 20px;
+                font-size: 20px;
+            }
+            .choosedate{
+                font-size: 20px;
+            }
+            .choosedate input{
+                font-size: 17px;
+            }
         </style>
     </head>
     <body>
@@ -244,48 +264,58 @@
                 <a class="logout" href="http://localhost:9999/ta.com/logout"><i class="fas fa-sign-out-alt"></i></a>
             </div>
         </div>
-        <div class="container" style="margin-top: 20px">
-            <h1>Salary List</h1>
-
-            <div class="search-form">
-                <form action="listsalary" method="POST">
-                    <input type="month" name="monthYear" value="${selectedMonth}" required />
-                    <button type="submit">Search</button>
-                </form>
+        <form action="salaryworker" method="post" class="choosedate">
+            Date: <input type="month" name="monthyear" value="${selectedDate}" required>
+            <input type="submit" value="List">
+        </form>
+        <c:if test="${not empty message}">
+            <div style="color: green; margin-bottom: 20px;">
+                ${message}
             </div>
+        </c:if>
 
-            <c:if test="${not empty salaryList}">
-                <table>
-                    <thead>
+        <c:if test="${empty message}">
+            <c:if test="${not empty reports}">
+                <div class="table-container">
+                    <table>
                         <tr>
                             <th>Employee ID</th>
                             <th>Employee Name</th>
-                            <th>Month Year</th>
+                                <c:forEach begin="1" end="${daysInMonth}" var="day">
+                                <th>${day}</th>
+                                </c:forEach>
                             <th>Salary</th>
-                            <th>Fine</th>
-                            <th>Note</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${salaryList}" var="s">
+                        <c:forEach items="${reports}" var="report">
                             <tr>
-                                <td>${s.emp.id}</td>
-                                <td>${s.emp.name}</td>
-                                <td>${s.monthyear}</td>
-                                <td class="currency" style="color: green">${String.format("%,d", s.salary.longValue())}vnd</td>
-                                <td class="currency" style="color: red">${String.format("%,d", s.fine.longValue())}vnd</td>
-                                <td>${s.note}</td>
+                                <td>${report.employeeId}</td>
+                                <td>${report.employeeName}</td>
+                                <c:forEach begin="1" end="${daysInMonth}" var="day">
+                                    <td>${report.getStatus(day)}</td>
+                                </c:forEach>
+                                <td class="salary-column">
+                                    <c:if test="${report.calculatedSalary > 0}">
+                                        <fmt:formatNumber value="${report.calculatedSalary}" pattern="#,##0" />
+                                    </c:if>
+                                </td>
                             </tr>
                         </c:forEach>
-                    </tbody>
-                </table>
+                    </table>
+                </div>
+                <div class="button-container">
+                    <form action="salaryworker" method="post" style="display: inline;" onsubmit="enableSaveButton()">
+                        <input type="hidden" name="monthyear" value="${selectedDate}">
+                        <input type="hidden" name="action" value="calculate">
+                        <input type="submit" value="Calculate Salaries">
+                    </form>
+                    </div>
             </c:if>
-
-            <c:if test="${empty salaryList and not empty selectedMonth}">
+            <c:if test="${empty reports}">
                 <div class="no-data">
-                    No salary records found for the selected month.
+                    No attendance records found for the selected month.
                 </div>
             </c:if>
-        </div>
+        </c:if>
+        
     </body>
 </html>
